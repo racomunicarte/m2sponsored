@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Sponsored.
+ *
+ * @category  Magneto
+ * @package   Magneto_Marketplace
+ * @author    Magneto
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="marketplace" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Marketplace</label>
+            <!-- Assign section to tab -->
+            <tab>webkul</tab>
+            <resource>Webkul_Marketplace::config_marketplace</resource>
+            <group id="sponsored_settings" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Sponsored Settings</label>
+                <field id="duration" translate="label comment" sortOrder="1" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Duration</label>
+                    <validate>validate-digits</validate>
+                    <comment>In Days</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Sponsored Override Webkul Marketplace
+ *
+ * @category  Magneto
+ * @package   Magneto_Sponsored
+ * @author    Magneto
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Webkul\Marketplace\Block\Product\Create" name="marketplace_product_edit" template="Magneto_Sponsored::product/edit.phtml" cacheable="false"/>
+            <block class="Webkul\Marketplace\Block\Product\Create" name="marketplace_product_related_product" template="product/related_product.phtml" ifconfig="marketplace/product_settings/allow_related_product" cacheable="false"/>
+            <block class="Webkul\Marketplace\Block\Product\Create" name="marketplace_product_upsell_product" template="product/upsell_product.phtml" ifconfig="marketplace/product_settings/allow_upsell_product" cacheable="false"/>
+            <block class="Webkul\Marketplace\Block\Product\Create" name="marketplace_product_crosssell_product" template="product/crosssell_product.phtml" ifconfig="marketplace/product_settings/allow_crosssell_product" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

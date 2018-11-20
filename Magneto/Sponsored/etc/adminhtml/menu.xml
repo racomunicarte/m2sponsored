@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Sponsored.
+ *
+ * @category  Magneto
+ * @package   Magneto_Sponsored
+ * @author    Magneto
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magneto_Sponsored::sponsored" title="Manage Sponsored Products" module="Magneto_Sponsored" sortOrder="1" parent="Webkul_Marketplace::menu" action="magneto_sponsored/sponsored" resource="Magneto_Sponsored::sponsored"/>
+    </menu>
+</config>

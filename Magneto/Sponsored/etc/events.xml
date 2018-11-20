@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Sponsored.
+ *
+ * @category  Magneto
+ * @package   Magneto_Sponsored
+ * @author    Magneto
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_save_after">
+        <observer name="magneto_sponsored_catalog_product_save_after_observer" instance="Magneto\Sponsored\Observer\CatalogProductSaveAfterObserver" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="magneto_sponsored_sales_order_place_after_observer" instance="Magneto\Sponsored\Observer\SalesOrderPlaceAfterObserver" />
+    </event>
+</config>
