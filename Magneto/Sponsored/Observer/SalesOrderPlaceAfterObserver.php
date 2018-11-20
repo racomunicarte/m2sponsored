@@ -1,49 +1,44 @@
 <?php
-/**
- * Webkul Software.
- *
- * @category  Webkul
- * @package   Webkul_Marketplace
- * @author    Webkul
- * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
- * @license   https://store.webkul.com/license.html
- */
 
 namespace Magneto\Sponsored\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-use Magneto\Sponsored\Model\Sponsored;
 
 /**
- * Webkul Marketplace SalesOrderPlaceAfterObserver Observer Model.
+ * Class SalesOrderPlaceAfterObserver
+ * @package Magneto\Sponsored\Observer
  */
 class SalesOrderPlaceAfterObserver implements ObserverInterface
 {
     /**
-     * @var eventManager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var ObjectManagerInterface
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
-    /**
-     * @var \Magneto\Sponsored\Model\Sponsored Sponsored
-     */
-    protected $_sponsored;
+
+    protected $_sessionManager;
+
+    protected $_customerSession;
 
     /**
      * SalesOrderPlaceAfterObserver constructor.
      * @param \Magento\Framework\Event\Manager $eventManager
-     * @param Sponsored $sponsored
      */
     public function __construct(
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Event\Manager $eventManager,
-        Sponsored $sponsored
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\Session\SessionManagerInterface $sessionManager,
+        \Magento\Customer\Model\Session $customerSession
     ) {
+        $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
-        $this->_sponsored = $sponsored;
+        $this->_sessionManager = $sessionManager;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -53,9 +48,21 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $debug = true;
-        /** @var $orderInstance Order */
-        $order = $observer->getOrder();
-        $lastOrderId = $order->getIncrementId();
+        $order = $observer->getEvent()->getOrder();
+        $tmpSession = $this->_sessionManager->getSponsoredProduct();
+        $sponsoredCollection = $this->_objectManager->create('Magneto\Sponsored\Model\ResourceModel\Sponsored\Collection');
+        $sponsoredCollection->addFieldToFilter(
+                'product_id', $tmpSession
+            )
+            ->addFieldToFilter(
+                'seller_id', $this->_customerSession->getId()
+            );
+        foreach ($sponsoredCollection as $item) {
+            $sponsored = $this->_objectManager->create('Magneto\Sponsored\Model\Sponsored');
+            $model = $sponsored->load($item->getEntityId());
+            $model->setIsActive(1)
+                ->setProcessedOrderId($order->getIncrementId())
+                ->save();
+        }
     }
 }

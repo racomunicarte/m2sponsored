@@ -59,7 +59,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
 
         $collection->getSelect()->joinLeft(
             ['sponsored' => 'marketplace_sponsored_products'],
-            'sponsored.product_id = e.entity_id',
+            'sponsored.product_id = e.entity_id and is_active = 1',
             ['expiry_date'   => 'sponsored.expiry_date']
         );
 

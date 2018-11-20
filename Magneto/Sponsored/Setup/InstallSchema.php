@@ -70,20 +70,6 @@ class InstallSchema implements InstallSchemaInterface
                 'Expiry Date'
             )
             ->addColumn(
-                'payment_status',
-                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Payment Status'
-            )
-            ->addColumn(
-                'is_renewed',
-                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Is Renewed'
-            )
-            ->addColumn(
                 'seller_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 null,

@@ -3,10 +3,10 @@
 namespace Magneto\Sponsored\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-//use Webkul\Marketplace\Model\ResourceModel\Product\CollectionFactory;
 
 /**
- * Webkul Marketplace CatalogProductSaveAfterObserver Observer.
+ * Class CatalogProductSaveAfterObserver
+ * @package Magneto\Sponsored\Observer
  */
 class CatalogProductSaveAfterObserver implements ObserverInterface
 {
@@ -16,11 +16,6 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
     protected $_objectManager;
 
     /**
-     * @var CollectionFactory
-     */
-    //protected $_collectionFactory;
-
-    /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
@@ -28,7 +23,6 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
     /**
      * @var \Magneto\Sponsored\Helper\Sponsored
      */
-    //protected $_sponsorsedHelper;
 
     protected $formKey;
 
@@ -38,41 +32,46 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
 
     protected $_productRepositoryInterface;
 
+    protected $_registry;
+
+    protected $_checkoutSession;
+
+    protected $_sessionManager;
+
     /**
      * CatalogProductSaveAfterObserver constructor.
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magneto\Sponsored\Helper\Sponsored $sponsorsedHelper
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Catalog\Model\Product $product
-     * @param CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        //\Magneto\Sponsored\Helper\Sponsored $sponsorsedHelper,
         \Magento\Framework\Data\Form\FormKey $formKey,
+        \Magento\Framework\Registry $registry,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $product,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface
-        //\Zend\Validator\Uri $uri,
-        //\Magento\Framework\App\ResponseFactory $responseFactory,
-        //\Magento\Framework\App\RequestInterface $request
-        //CollectionFactory $collectionFactory
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Session\SessionManagerInterface $sessionManager
     ) {
         $this->_objectManager = $objectManager;
-        //$this->_collectionFactory = $collectionFactory;
         $this->_date = $date;
         $this->scopeConfig = $scopeConfig;
-        //$this->_sponsorsedHelper = $sponsorsedHelper;
         $this->formKey = $formKey;
         $this->cart = $cart;
         $this->product = $product;
         $this->_productRepositoryInterface = $productRepositoryInterface;
+        $this->_registry = $registry;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_sessionManager = $sessionManager;
     }
 
     /**
@@ -83,6 +82,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $debug = true;
         try {
             $product = $observer->getProduct();
 
@@ -111,16 +111,19 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
 
                 if ($sponsoredCollection->save()) {
                     //Add Sponsor Product to Cart
-                    $product = $this->_productRepositoryInterface->get('SPONSOR');
+                    $_product = $this->_productRepositoryInterface->get('SPONSOR');
                     $params = [
                         'form_key' => $this->formKey->getFormKey(),
-                        'product' => $product->getId(),
+                        'product' => $_product->getId(),
                         'qty'   => 1
                     ];
 
-                    $_product = $this->product->load($product->getId());
-                    $this->cart->addProduct($_product, $params);
+                    $_prod = $this->product->load($_product->getId());
+                    $this->cart->addProduct($_prod, $params);
                     $this->cart->save();
+
+                    //Save Sponsored product id in session variable
+                    $this->_sessionManager->setSponsoredProduct($product->getId());
                 }
             }
 

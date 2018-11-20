@@ -23,24 +23,24 @@ class UpgradeSchema implements UpgradeSchemaInterface
          */
         $setup->getConnection()->addColumn(
             $setup->getTable('marketplace_sponsored_products'),
-            'is_converted_to_order',
+            'is_active',
             [
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 'unsigned' => true,
                 'nullable' => false,
                 'default' => '0',
-                'comment' => 'Flag to identify sponsor order creation'
+                'comment' => 'Flag to display product'
             ]
         );
         $setup->getConnection()->addColumn(
             $setup->getTable('marketplace_sponsored_products'),
-            'is_active_offer',
+            'processed_order_id',
             [
-                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                 'unsigned' => true,
                 'nullable' => false,
                 'default' => '0',
-                'comment' => 'Flag to identify product is expired'
+                'comment' => 'Sponsorship Order'
             ]
         );
         //Add Unique Index
@@ -48,10 +48,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $setup->getTable('marketplace_sponsored_products'),
             $setup->getIdxName(
                 'marketplace_sponsored_products',
-                ['product_id', 'seller_id', 'is_active_offer'],
+                ['product_id', 'seller_id'],
                 \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
             ),
-            ['product_id', 'seller_id', 'is_active_offer'],
+            ['product_id', 'seller_id'],
             \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         );
 
