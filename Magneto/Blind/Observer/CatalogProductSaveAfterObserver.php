@@ -38,6 +38,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
 
     protected $_sessionManager;
 
+    protected $_messageManager;
     /**
      * CatalogProductSaveAfterObserver constructor.
      * @param \Magento\Framework\App\Action\Context $context
@@ -60,7 +61,8 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Framework\Session\SessionManagerInterface $sessionManager
+        \Magento\Framework\Session\SessionManagerInterface $sessionManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_objectManager = $objectManager;
         $this->_date = $date;
@@ -72,6 +74,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
         $this->_registry = $registry;
         $this->_checkoutSession = $checkoutSession;
         $this->_sessionManager = $sessionManager;
+        $this->_messageManager = $sessionManager;
     }
 
     /**
@@ -128,7 +131,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
             }
 
         } catch (\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
+            $this->_messageManager->addError($e->getMessage());
         }
 
     }
