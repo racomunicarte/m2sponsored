@@ -82,47 +82,54 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $product = $observer->getProduct();
+        $debug = true;
+        try {
+            $product = $observer->getProduct();
 
-        $objectManagerInterface = \Magento\Framework\App\ObjectManager::getInstance();
-        $customer = $objectManagerInterface->create('Magento\Customer\Model\Session');
+            $objectManagerInterface = \Magento\Framework\App\ObjectManager::getInstance();
+            $customer = $objectManagerInterface->create('Magento\Customer\Model\Session');
 
-        //Utilize observer product save data, Save Sponsored Product Data
-        if ($product->getIsBlind() && $customer->isLoggedIn()) {
+            //Utilize observer product save data, Save Sponsored Product Data
+            if ($product->getIsBlind() && $customer->isLoggedIn()) {
 
-            //Prepare Data for Marketplace Sponsored Product
-            $startTimer = date('Y-m-d H:i:s');
-            $duration = $this->scopeConfig->getValue(
-                'marketplace/blind_settings/duration',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-            $startDate = time();
-            $endTimer = date('Y-m-d H:i:s', strtotime('+' . $duration . ' day', $startDate));
-            $sponsoredCollection = $this->_objectManager->create('Magneto\Blind\Model\Blind');
-            $sponsoredCollection
-                ->setProductId($product->getId())
-                ->setProductName($product->getName())
-                ->setSku($product->getSku())
-                ->setStartDate($startTimer)
-                ->setExpiryDate($endTimer)
-                ->setSellerId($customer->getCustomer()->getId());
+                //Prepare Data for Marketplace Sponsored Product
+                $startTimer = date('Y-m-d H:i:s');
+                $duration = $this->scopeConfig->getValue(
+                    'marketplace/blind_settings/duration',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
+                $startDate = time();
+                $endTimer = date('Y-m-d H:i:s', strtotime('+' . $duration . ' day', $startDate));
+                $sponsoredCollection = $this->_objectManager->create('Magneto\Blind\Model\Blind');
+                $sponsoredCollection
+                    ->setProductId($product->getId())
+                    ->setProductName($product->getName())
+                    ->setSku($product->getSku())
+                    ->setStartDate($startTimer)
+                    ->setExpiryDate($endTimer)
+                    ->setSellerId($customer->getCustomer()->getId());
 
-            if ($sponsoredCollection->save()) {
-                //Add Sponsor Product to Cart
-                $_product = $this->_productRepositoryInterface->get('Blind');
-                $params = [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'product' => $_product->getId(),
-                    'qty'   => 1
-                ];
+                if ($sponsoredCollection->save()) {
+                    //Add Sponsor Product to Cart
+                    $_product = $this->_productRepositoryInterface->get('Blind');
+                    $params = [
+                        'form_key' => $this->formKey->getFormKey(),
+                        'product' => $_product->getId(),
+                        'qty'   => 1
+                    ];
 
-                $_prod = $this->product->load($_product->getId());
-                $this->cart->addProduct($_prod, $params);
-                $this->cart->save();
+                    $_prod = $this->product->load($_product->getId());
+                    $this->cart->addProduct($_prod, $params);
+                    $this->cart->save();
 
-                //Save Sponsored product id in session variable
-                $this->_sessionManager->setBlindProduct($product->getId());
+                    //Save Sponsored product id in session variable
+                    $this->_sessionManager->setBlindProduct($product->getId());
+                }
             }
+
+        } catch (\Exception $e) {
+            $this->messageManager->addError($e->getMessage());
         }
+
     }
 }

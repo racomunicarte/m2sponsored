@@ -129,7 +129,7 @@ class Save extends \Magento\Customer\Controller\AbstractAccount
 
                         //If product is blind, redirect to checkout
                         if (!empty($wholedata['product']['is_blind'])
-                            && isset($wholedata['product']['is_bline'])
+                            && isset($wholedata['product']['is_blind'])
                         ) {
                             return $this->resultRedirectFactory->create()->setPath('checkout');
                         } else {
