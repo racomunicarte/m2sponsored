@@ -13,7 +13,7 @@
 /** @var $block \Webkul\Marketplace\Block\Product\Create */
 
 $helper = $this->helper('Webkul\Marketplace\Helper\Data');
-$blindhelper = $this->helper('Magneto\Blind\Helper\Blind');
+$blind_helper = $this->helper('Magneto\Blind\Helper\Blind');
 $product_hint_status = $helper->getProductHintStatus();
 $currency_code = $helper->getCurrentCurrencyCode();
 $currency_symbol = $helper->getCurrencySymbol();
@@ -503,7 +503,7 @@ $skuType = $helper->getSkuType();
                     <select id="is_blind" class="input-select" name="product[is_blind]">
                         <option value=""><?php echo __('Please Select')?></option>
                         <?php
-                        $product_blind = $blindhelper->getBlindOptionArray();
+                        $product_blind = $blind_helper->getBlindOptionArray();
                         foreach($product_blind as $key=>$value){
                             ?>
                             <option value="<?php echo $key ?>" <?php if($key==$product_coll->getIsBlind()){ echo "selected='selected'";}?>><?php echo $value?></option>

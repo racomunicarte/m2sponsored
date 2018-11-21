@@ -21,7 +21,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
     protected $_date;
 
     /**
-     * @var \Magneto\Sponsored\Helper\Sponsored
+     * @var \Magneto\Sponsored\Helper\Blind
      */
 
     protected $formKey;
