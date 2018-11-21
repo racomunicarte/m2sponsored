@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Blind
+ *
+ * @category  Magneto
+ * @package   Magneto_Blind
+ * @author    Magneto
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="magneto_blind" frontName="magneto_blind">
+            <module name="Magneto_Blind"/>
+        </route>
+    </router>
+</config>

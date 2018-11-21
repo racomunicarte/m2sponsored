@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magneto Blind
+ *
+ * @category  Magneto
+ * @package   Magneto_Blind
+ * @author    Magneto
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magneto_Blind::blind" title="Manage Blind Products" module="Magneto_Blind" sortOrder="1" parent="Webkul_Marketplace::menu" action="magneto_blind/blind" resource="Magneto_Blind::blind"/>
+    </menu>
+</config>
