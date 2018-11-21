@@ -6,7 +6,7 @@ use Magento\Framework\Event\ObserverInterface;
 
 /**
  * Class CatalogProductSaveAfterObserver
- * @package Magneto\Blind\Observer
+ * @package Magneto\Sponsored\Observer
  */
 class CatalogProductSaveAfterObserver implements ObserverInterface
 {
@@ -21,7 +21,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
     protected $_date;
 
     /**
-     * @var \Magneto\Sponsored\Helper\Blind
+     * @var \Magneto\Sponsored\Helper\Sponsored
      */
 
     protected $formKey;
@@ -31,6 +31,8 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
     protected $cart;
 
     protected $_productRepositoryInterface;
+
+    protected $_registry;
 
     protected $_checkoutSession;
 
@@ -53,6 +55,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Data\Form\FormKey $formKey,
+        \Magento\Framework\Registry $registry,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
@@ -66,6 +69,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
         $this->cart = $cart;
         $this->product = $product;
         $this->_productRepositoryInterface = $productRepositoryInterface;
+        $this->_registry = $registry;
         $this->_checkoutSession = $checkoutSession;
         $this->_sessionManager = $sessionManager;
     }
@@ -78,16 +82,17 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $debug = true;
         try {
             $product = $observer->getProduct();
 
             $objectManagerInterface = \Magento\Framework\App\ObjectManager::getInstance();
             $customer = $objectManagerInterface->create('Magento\Customer\Model\Session');
 
-            //Utilize observer product save data, Save Blind Product Data
+            //Utilize observer product save data, Save Sponsored Product Data
             if ($product->getIsBlind() && $customer->isLoggedIn()) {
 
-                //Prepare Data for Marketplace Blind Product
+                //Prepare Data for Marketplace Sponsored Product
                 $startTimer = date('Y-m-d H:i:s');
                 $duration = $this->scopeConfig->getValue(
                     'marketplace/blind_settings/duration',
@@ -95,8 +100,8 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
                 );
                 $startDate = time();
                 $endTimer = date('Y-m-d H:i:s', strtotime('+' . $duration . ' day', $startDate));
-                $collection = $this->_objectManager->create('Magneto\Blind\Model\Blind');
-                $collection
+                $sponsoredCollection = $this->_objectManager->create('Magneto\Blind\Model\Blind');
+                $sponsoredCollection
                     ->setProductId($product->getId())
                     ->setProductName($product->getName())
                     ->setSku($product->getSku())
@@ -104,9 +109,9 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
                     ->setExpiryDate($endTimer)
                     ->setSellerId($customer->getCustomer()->getId());
 
-                if ($collection->save()) {
+                if ($sponsoredCollection->save()) {
                     //Add Sponsor Product to Cart
-                    $_product = $this->_productRepositoryInterface->get('BLIND');
+                    $_product = $this->_productRepositoryInterface->get('Blind');
                     $params = [
                         'form_key' => $this->formKey->getFormKey(),
                         'product' => $_product->getId(),
@@ -117,7 +122,7 @@ class CatalogProductSaveAfterObserver implements ObserverInterface
                     $this->cart->addProduct($_prod, $params);
                     $this->cart->save();
 
-                    //Save Blind product id in session variable
+                    //Save Sponsored product id in session variable
                     $this->_sessionManager->setBlindProduct($product->getId());
                 }
             }
