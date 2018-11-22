@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mpqa>
+            <email>
+                <askproductquery_seller_template>mpqa_email_askproductquery_seller_template</askproductquery_seller_template>
+                <askproductquery_admin_template>mpqa_email_askproductquery_admin_template</askproductquery_admin_template>
+                <seller_response_template>mpqa_email_seller_response_template</seller_response_template>
+            </email>
+        </mpqa>
+    </default>
+</config>

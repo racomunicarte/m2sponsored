@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction Menu
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Webkul_MpAuction::manager" title="Auction Manager" module="Webkul_MpAuction" sortOrder="10" resource="Webkul_MpAuction::manager" parent="Webkul_Marketplace::marketplace"/>
+    	<add id="Webkul_MpAuction::products" title="Manage Auction" module="Webkul_MpAuction" sortOrder="20" parent="Webkul_MpAuction::manager" action="mpauction/auction" resource="Webkul_MpAuction::products"/>
+    </menu>
+</config>

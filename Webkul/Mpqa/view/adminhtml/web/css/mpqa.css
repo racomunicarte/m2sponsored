@@ -1,0 +1,102 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+.pimg{
+    width: 30%;
+    display: inline-block;
+    float: left;
+}
+.pinfo{
+    float: left;
+    width: 68%;
+    display: inline-block;
+    margin-left: 5px;
+}
+.clr{
+    clear: both;
+}
+
+.clikc{float:right;}
+.mainquest{margin-top: 25px;}
+.newres{margin-top:2px;}
+
+.plabl{font-size: 21px;font-weight: bold;color:#67753B;}
+.nlabl{font-size: 17px;}
+.respond{border-bottom:1px solid #ccc;}
+.dte{margin-left:10px;font-size: 1.2rem;}
+.conten{margin-bottom: 5px;margin-top: 2px; margin-left:10px;overflow:hidden;}
+.newres:nth-child(even){background-color: #CCCCCC;}
+.newres:nth-child(odd){background-color: #F0D6A7;}
+#mlabl{font-size:17px; color:#67753B; font-weight: bold;}
+.rlabl{font-size:13px; color:#67753B; font-weight: bold; margin-left:8px;}
+.conten1{margin-bottom: 5px;margin-top: 2px;}
+.fieldset {
+    background: none repeat scroll 0 0 #FBFAF6;
+    border: 1px solid #BBAFA0;
+    margin: 28px 0;
+    padding: 22px 25px 12px 33px;
+}
+.fieldset .legend {
+    background: none repeat scroll 0 0 #F9F3E3;
+    border: 1px solid #F19900;
+    color: #E76200;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: -33px 0 0 -10px;
+    padding: 0 8px;
+    position: relative;
+}
+.page-title {
+    border-bottom: 1px solid #CCCCCC;
+    margin: 0 0 25px;
+    overflow: hidden;
+    width: 100%;
+}
+.txtsize{height: 90px;width: 927px;}
+.ansmore{cursor:pointer;}
+.image{width:256px;}
+#clear{clear:both;}
+#respd{display:none;}
+.dte1{font-weight:bold;}
+.dte{font-weight:bold;}
+.btn{float:right;}
+.clr{clear:both;}
+
+.margres {
+    margin-bottom: 3px;
+    overflow:hidden;
+}
+
+.removing{color:tomato;}
+.marrem{margin-right:5px;}
+.delet:hover{color:tomato;}
+
+.delet {
+    float: right;
+    cursor: pointer;
+    background-color: inherit;
+    border: 0;
+}
+.wk_prewrap{
+    white-space: pre-wrap;
+}
+#success_msg{
+    display: block;
+    /* float: left; */
+    color: green;
+    background: #e5efe5;
+    position: fixed;
+    left: 0;
+    top: 0px;
+    z-index: 710;
+    width: 100%;
+    padding: 5px 14px;
+    font-size: 16px;
+}

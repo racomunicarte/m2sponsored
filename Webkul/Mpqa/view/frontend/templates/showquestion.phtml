@@ -1,0 +1,109 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$collection=$block->getQuestions();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+?>
+<div class="wk-mp-design">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php  echo __('Question List') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+				
+				
+				<?php if ($collection && count($collection)): ?>
+						<table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+						    <thead>
+						        <tr class="wk-content">
+						        	
+						    		<th class="wk-first-td">
+						    			<span class="label name">
+											<?php  echo __('Image')?>
+										</span>
+						    		</th>
+						    		<th>
+						    			<span class="label pro-status">
+											<?php  echo __('Product Name')?>
+										</span>
+						    		</th>
+						    		<th>
+						    			<span class="label pro-status">
+											<?php  echo __('Subject')?>
+										</span>
+						    		</th>
+						    		<th class="wk-list-th-display">
+						    			<span class="label qty">
+											<?php  echo __('Date')?>
+										</span>
+						    		</th>
+						    	</tr>
+						    </thead>
+						    <tbody>
+						    	<?php 
+						    	$i = 0;
+								foreach($collection as $col){
+									$i++;
+									$qid = $col->getQuestionId();
+									$productCollection = $objectManager->create('Magento\Catalog\Model\Product');
+									$product=$productCollection->load($col->getProductId());
+									?>
+							    	<tr class="wk-row-view <?php  echo $class = ($i == count($collection))? 'wk-last_tr':''?>">
+							    		
+							    		<td>		
+											<span class="label pro-status">
+												<img src='<?php echo  $block->imageHelperObj()->init($product, 'product_page_image_small')->getUrl();?>'>
+											</span>
+										</td>
+										<td>		
+											<span class="label pro-status">
+												<?php  echo $product->getName()?>
+											</span>
+										</td>
+										<td>		
+											<span class="label pro-status">
+												<?php
+												$procontent = strlen($col->getSubject())>14?substr($col->getSubject(),0,14)."..":$col->getSubject();
+											?>
+											<a class='contena' href='<?php echo $block->getUrl('mpqa/mpqaquest/giveanswer/').'id/'.$qid; ?>'> <?php echo $procontent; ?> </a>
+												
+											</span>
+										</td>
+										<td>		
+											<span class="label pro-status">
+												
+												<?php  echo $block->formatDate($col->getCreatedAt(),\IntlDateFormatter::MEDIUM,true); ?>
+											</span>
+										</td>
+							    					    		
+							    	</tr>
+							    	<?php
+							    }?>
+						    </tbody>
+						</table>
+									
+				<?php else: ?>
+					<div class="wk-emptymsg">
+						<?php  echo __('No Questions Available') ?>
+					</div>
+				<?php endif ?>					
+			</div>
+		</div>
+		<?php if ($block->getPagerHtml()): ?>
+	        <div class="order-coupon-toolbar toolbar bottom"><?php  echo $block->getPagerHtml(); ?></div>
+	    <?php endif ?>	
+	</fieldset>	
+	<div class="buttons-set">
+		<p class="back-link">
+			<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php  echo __('Back') ?></a>
+		</p>
+	</div>
+</div>	

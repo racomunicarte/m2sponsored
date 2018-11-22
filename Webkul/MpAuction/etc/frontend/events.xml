@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction Frontend events
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch_checkout_cart_add">
+        <observer name="webkul_auction_predispatch_checkout_cart_add" instance="Webkul\MpAuction\Observer\ControllerActionPredispatchCheckoutCartAdd" />
+    </event>
+    <event name="controller_action_postdispatch_checkout_cart_add">
+        <observer name="webkul_auction_postdispatch_checkout_cart_add" instance="Webkul\MpAuction\Observer\ControllerActionPostdispatchCheckoutCartAdd" />
+    </event>
+    <event name="catalog_controller_product_view">
+        <observer name="webkul_auction_product_view" instance="Webkul\MpAuction\Observer\CatalogControllerProductView" />
+    </event>
+    <event name="sales_quote_add_item">
+        <observer name="webkul_quote_add_item" instance="Webkul\MpAuction\Observer\SalesQuoteAddItem" />
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="webkul_cart_product_add_after" instance="Webkul\MpAuction\Observer\CheckoutCartProductAddAfter" />
+    </event>
+    <event name="controller_action_predispatch_wishlist_index_cart">
+        <observer name="webkul_cart_product_add_before" instance="Webkul\MpAuction\Observer\CheckoutCartProductAddBefore" />
+    </event>
+    <event name="controller_action_predispatch_wishlist_index_allcart">
+        <observer name="webkul_cart_product_add_before" instance="Webkul\MpAuction\Observer\CheckoutCartProductAddBefore" />
+    </event>
+    <event name="checkout_cart_update_items_after">
+        <observer name="webkul_cart_update_items_after" instance="Webkul\MpAuction\Observer\CheckoutCartUpdateItemsAfter" />
+    </event>
+    <event name="checkout_cart_update_item_complete">
+        <observer name="webkul_cart_update_items_complete" instance="Webkul\MpAuction\Observer\CheckoutCartUpdateItemsAfter" />
+    </event>
+    <event name="controller_action_predispatch_checkout">
+        <observer name="webkul_auction_predispatch_checkout" instance="Webkul\MpAuction\Observer\ControllerActionPredispatchCheckout" />
+    </event>
+    <event name="controller_action_predispatch_checkout_cart">
+        <observer name="webkul_auction_predispatch_checkout_cart" instance="Webkul\MpAuction\Observer\ControllerActionPredispatchCheckout" />
+    </event>
+</config>

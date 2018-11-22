@@ -1,0 +1,78 @@
+<?php
+$auctionData = $block->getAuctionDetail();
+if (count($auctionData) > 1 && $block->getAuctionConfiguration()['show_auc_detail']) { ?>
+<div class="wk-auction-bids-record-box">
+    <div class="wk-auction-auction-details">
+        <table class="wk-auction-bid-detail-table">
+            <?php if ($block->getAuctionConfiguration()['show_curt_auc_price']) { ?>
+                <tr>
+                    <td class="wk-curr-amount-td"><?php echo __('Current Amount') ?></td>
+                    <td>:</td>
+                    <td><?php echo $block->formatPrice($auctionData['current_auction_amount']) ;?></td>
+                </tr>
+            <?php } ?>
+            <tr>
+                <td><?php echo __('Start Time') ?></td>
+                <td>:</td>
+                <td><?php echo date('F j, Y, G:i:s A ',strtotime($auctionData['start_auction_time'])) ?></td>
+            </tr>
+            <tr>
+                <td><?php echo __('Stop Time') ?></td>
+                <td>:</td>
+                <td><?php echo date('F j, Y, G:i:s A ',strtotime($auctionData['stop_auction_time'])) ?></td>
+            </tr>
+            <tr>
+                <td><?php echo __('Minimum Qty') ?></td>
+                <td>:</td>
+                <td><?php echo $auctionData['min_qty']?></td>
+            </tr>
+            <tr>
+                <td><?php echo __('Maximum Qty') ?></td>
+                <td>:</td>
+                <td><?php echo $auctionData['max_qty']?></td>
+            </tr>
+            <tr>
+                <td><?php echo __('Offer Avail Time') ?></td>
+                <td>:</td>
+                <td><?php 
+                    $date1 = date_create($auctionData['stop_auction_time']);
+                    $date2 = date_create(date('Y-m-d H:i:s'));
+                    $diff = date_diff($date1,$date2);
+                    echo ($diff->days).__(' Days'); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo __('Bid Rules') ?></td>
+                <td>:</td>
+                <td><p class="wk-auction-bid-rule"><?php echo $block->getAuctionConfiguration()['auction_rule']; ?></p></td>
+            </tr>
+        </table>
+    </div>
+    <div class="wk-auction-bids-record">
+        <div class="product data items" role="tablist">
+            <div class="data item title" aria-labeledby="tab-label-normal-bid-record-title" data-role="collapsible" id="tab-label-normal-bid-record" role="tab" data-collapsible="true" aria-controls="normal-bid-record" aria-selected="false" aria-expanded="false" tabindex="0">
+                    <a class="data switch" tabindex="-1" data-toggle="switch" href="#normal-bid-record" id="tab-label-normal-bid-record-title"><?php echo __('Normal Bid List') ?></a>
+            </div>
+            <div class="data item content" id="normal-bid-record" data-role="content" aria-labelledby="tab-label-normal-bid-record" role="tabpanel" aria-hidden="true" style="display: none;">
+                <?php echo $block->getChildHtml('normal-bid-details') ?>
+            </div>
+            <?php if ($block->getAuctionConfiguration()['show_auto_details'] && $block->getAuctionConfiguration()['auto_enable']) { ?>
+                <div class="data item title" aria-labeledby="tab-label-automatic-bid-record-title" data-role="collapsible" id="tab-label-automatic-bid-record" role="tab" data-collapsible="true" aria-controls="automatic-bid-record" aria-selected="false" aria-expanded="false" tabindex="0">
+                                <a class="data switch" tabindex="-1" data-toggle="switch" href="#automatic-bid-record" id="tab-label-automatic-bid-record-title"><?php echo __('Automatic Bid List') ?></a>
+                </div>
+                <div class="data item content" id="automatic-bid-record" data-role="content" aria-labelledby="tab-label-automatic-bid-record" role="tabpanel" aria-hidden="true" style="display: none;">
+                    <?php echo $block->getChildHtml('automatic-bid-details') ?>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpAuction/js/auctionbiddetail":
+                {
+                }
+        }
+    }
+</script>
+<?php }  ?>

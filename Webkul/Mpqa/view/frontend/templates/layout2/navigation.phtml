@@ -1,0 +1,26 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpRmaSystem
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2016 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ ?>
+<?php
+    $_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+    $isPartner = $_helper->isSeller();
+    $isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+    $magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php if ($isPartner): ?>
+    <?php if (($isSellerGroup && $_helper->isAllowedAction('mpqa/mpqaquest/showquestions')) || !$isSellerGroup): ?>
+        <li id="wk-mp-menu-qa" class="wk-mp-item-order level-0 <?php echo strpos($magentoCurrentUrl, 'mpqa/mpqaquest/showquestions')? "current":"";?>">
+            <a href="<?php echo $block->getUrl('mpqa/mpqaquest/showquestions', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                <?php /* @escapeNotVerified */ echo __('Manage MPQA') ?>
+            </a>
+        </li>
+    <?php endif; ?>
+<?php endif; ?>

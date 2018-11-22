@@ -1,0 +1,41 @@
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="mpqa_mpqa_list_data_source" xsi:type="string">Webkul\Mpqa\Model\ResourceModel\Question\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<type name="Webkul\Mpqa\Model\ResourceModel\Question\Grid\Collection">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">marketplace_qaquestion</argument>
+			<argument name="eventPrefix" xsi:type="string">mpqa_question_grid_collection</argument>
+			<argument name="eventObject" xsi:type="string">question_grid_collection</argument>
+			<argument name="resourceModel" xsi:type="string">Webkul\Mpqa\Model\ResourceModel\Question</argument>
+		</arguments>
+	</type>	
+	<virtualType name="MpqaQuestionGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+		<arguments>
+			<argument name="appliers" xsi:type="array">
+				<item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+				<item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+			</argument>
+		</arguments>
+	</virtualType>
+	<virtualType name="QuestionGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+		<arguments>
+			<argument name="collection" xsi:type="object" shared="false">Webkul\Mpqa\Model\ResourceModel\Question\Collection</argument>
+			<argument name="filterPool" xsi:type="object" shared="false">MpqaQuestionGridFilterPool</argument>
+		</arguments>
+	</virtualType>
+	<preference for="Webkul\Mpqa\Api\QuestionAnswerRepositoryInterface" type="Webkul\Mpqa\Model\QuestionAnswerRepository" />
+</config>

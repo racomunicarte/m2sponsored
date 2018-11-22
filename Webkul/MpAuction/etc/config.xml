@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul MpAuction Config
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <wk_mpauction>
+            <email>
+                <enable_admin_email_template>dropship_email_order_approve_notification</enable_admin_email_template>
+            </email>
+            <general_settings>
+            	<enable>0</enable>
+            </general_settings>
+        </wk_mpauction>
+    </default>
+</config>

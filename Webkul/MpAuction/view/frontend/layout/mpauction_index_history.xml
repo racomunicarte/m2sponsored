@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction Auto Bidding List Layout.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-right" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!--update handle="customer_account"/-->
+    <head>
+        <css src="Webkul_MpAuction::css/style.css"/>
+    </head>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="auction_head_components" template="Magento_Customer::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="sidebar.additional">
+            <block class="Webkul\MpAuction\Block\HistoryRight" name="auction.history.proinfo" before="-" cacheable="false" />
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" after="auction.history.proinfo" name="auction.history.right" template="Webkul_MpAuction::viewonproduct.phtml" cacheable="false" />
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Webkul\MpAuction\Block\History" name="auction.bid.history" cacheable="false">
+                <block class="Webkul\MpAuction\Block\AutoBidHistory" name="auto.bid.history" as="auto-bid" cacheable="false" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

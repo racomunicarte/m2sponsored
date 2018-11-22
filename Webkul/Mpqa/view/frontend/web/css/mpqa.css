@@ -1,0 +1,344 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+.txtcomment {
+    display: none;
+}
+.clikc {
+    float: right;
+}
+.mainprt {
+    margin-bottom: 30px;
+}
+.mainquest {
+    margin-top: 6px;
+}
+.newres {
+    /* float: left; */
+    margin-top: 2px;
+    padding: 2px 10px;
+    width: 100%;
+    box-sizing: border-box !important;
+}
+.newres:nth-child(2n) {
+    background-color: #f5f5f5;
+}
+.newres:nth-child(2n+1) {
+    background-color: #e8e8e8;
+}
+.tab-container.last.current {
+    float: left;
+    width: 100%;
+}
+.bordr {
+    border-bottom: 2.8px solid #ccc;
+    float: left;
+    margin-top: 20px;
+    width: 100%;
+}
+.button.ansmore {
+    margin-top: 10px;
+}
+.button.clikc {
+    margin: 7px 0 7px 9px;
+}
+.plabl {
+    color: #67753b;
+    font-size: 16px;
+    font-weight: bold;
+}
+#subres {
+    margin-left: 76px;
+    margin-top: 20px;
+}
+.conten {
+    margin-bottom: 5px;
+    margin-top: 2px;
+}
+.allabel {
+    color: #67753b;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+}
+.sublabel {
+    color: #67753b;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+.respond {
+    overflow: hidden;
+}
+.resbor {
+    border-bottom: 1px solid #ccc;
+}
+.aprmsg {
+    color: #67753b;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.abutton {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    cursor: pointer;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    width: auto;
+}
+.abutton span {
+    background: #f18200 none repeat scroll 0 0;
+    border: 1px solid #de5400;
+    color: #ffffff;
+    display: block;
+    font: bold 12px/19px Arial,Helvetica,sans-serif;
+    height: 19px;
+    padding: 0 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+.abutton span span {
+    border: 0 none;
+    padding: 0;
+}
+.abutton {
+    float: right;
+}
+a.abutton {
+    text-decoration: none;
+}
+.txt {
+    width: 63%;
+}
+.msgres {
+    color: #d20000;
+    font-size: 13px;
+    font-weight: bold;
+}
+#loading-mask {
+    display: none;
+    margin-left: 341px;
+    margin-top: -280px;
+    position: absolute;
+}
+#loading-mask .loader {
+    background: #fff4e9 none repeat scroll 0 0;
+    border: 2px solid #f1af73;
+    color: #d85909;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -105px;
+    padding: 15px 30px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 150px;
+    z-index: 1000;
+}
+.qmore {
+    cursor: pointer;
+}
+.ansmore {
+    cursor: pointer;
+}
+.mainquest1 {
+    margin-top: 25px;
+}
+.mainquest1 .newres {
+    margin-top: 5px;
+}
+.pimg {
+    display: inline-block;
+    float: left;
+    width: 30%;
+}
+.pinfo {
+    display: inline-block;
+    float: left;
+    margin-left: 5px;
+    width: 69%;
+}
+.nlabl {
+    cursor: pointer;
+    font-size: 17px;
+}
+.wk_desc{
+    font-size: 17px;
+}
+#mlabl {
+    color: #67753b;
+    font-size: 17px;
+    font-weight: bold;
+}
+.rlabl {
+    color: #67753b;
+    font-size: 13px;
+    font-weight: bold;
+}
+.conten {
+    margin-bottom: 5px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+.txtsize {
+    height: 90px;
+    width: 622px;
+}
+.fieldset .legend {
+    background: #f9f3e3 none repeat scroll 0 0;
+    border: 1px solid #f19900;
+    color: #e76200;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: -33px 0 0 -10px;
+    padding: 0 8px;
+    position: relative;
+}
+.page-title {
+    border-bottom: 1px solid #cccccc;
+    margin: 0 0 25px;
+    overflow: hidden;
+    width: 100%;
+}
+.wk_mpqa_image {
+    width: 100%;
+}
+#subj {
+    margin-bottom: 20px;
+}
+#pr {
+    display: none;
+}
+#respd {
+    display: none;
+}
+.clr {
+    clear: both;
+}
+.dte {
+    float: left;
+    font-weight: bold;
+}
+.dt {
+    font-weight: bold;
+}
+.preres {
+    height: 100%;
+    width: 630%;
+}
+.btn {
+    float: right;
+}
+.fltl {
+    float: left;
+}
+#con {
+    height: 100%;
+    margin-left: 9px;
+    width: 350%;
+}
+#sub {
+    margin-left: 9px;
+}
+.like {
+    background: rgba(0, 0, 0, 0) url("../images/like.png") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 36px;
+    width: 33px;
+}
+.dislike {
+    background: rgba(0, 0, 0, 0) url("../images/dislike.png") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 36px;
+    width: 33px;
+}
+.lik {
+    display: none;
+}
+#ftext {
+    display: inline-block;
+    margin-left: 8px;
+}
+.margres {
+    margin-bottom: 3px;
+}
+.liker {
+    color: #d20000;
+}
+.likeg {
+    color: #67753b;
+}
+.liken {
+    color: #a9a9a9;
+}
+.wk_content .head .label.adds {
+    width: 146px;
+}
+.wk_row_view .label.adds {
+    width: 130px;
+}
+.respond.resbor {
+    float: left;
+    width: 100%;
+}
+
+.custmz {
+    font-size: 9px !important;
+}
+#loading-mask {
+    display: none;
+    margin-left: 341px;
+    margin-top: -280px;
+    position: absolute;
+}
+#loading-mask .loader {
+    background: #fff4e9 none repeat scroll 0 0;
+    border: 2px solid #f1af73;
+    color: #d85909;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -105px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 18%;
+    z-index: 1000;
+}
+#loading_mask_loader img {
+    margin: auto;
+}
+.filterurl_loader{
+    background:none repeat scroll 0 0 rgba(255, 255, 255, 0.62);
+    position: fixed;
+    top: 0px;
+    left:0;
+    width: 100%;
+    z-index:2000;
+    height: 120%;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFF4E9,endColorstr=#FFF4E9);
+}
+.filterurl_loader > div{
+    background:url("../images/ajax-loader.gif") no-repeat scroll 0 0 transparent;
+    position: fixed;
+    top: 48%;
+    border-radius: 18px;
+    left:48%;
+    width: 32;
+    height: 32px;
+    width: 32px;
+}
+.wk_prewrap{
+    white-space: pre-wrap;
+}

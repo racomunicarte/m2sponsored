@@ -1,0 +1,59 @@
+<?php
+/**
+ * Webkul_MpAuction Navigation.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$magentoCurrentUrl = $block->getCurrentUrl();
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+if ($helper->isSeller() && $block->isAuctionEnable()) {
+?>
+<style type="text/css">
+    @media only screen and (max-width: 767px){
+
+        .block-collapsible-nav.wk-mp-main{
+            top: 20px;
+        }
+    }
+</style>
+<li class="level-0 <?php echo strpos($magentoCurrentUrl,'mpauction/account')? "current active":"";?>">
+    <a href="#" onclick="return false;" class="">
+        <span><?php echo __('Auction')?></span>
+    </a>
+    <div class="wk-mp-submenu">
+        <strong class="wk-mp-submenu-title"><?php echo __('Auction')?></strong>
+        <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+        <ul>
+            <li data-ui-id="menu-webkul-marketplace-menu" class="item-menu  parent  level-1">
+                <strong class="wk-mp-submenu-group-title">
+                    <span><?php echo __('Menu')?></span>
+                </strong>
+                <div class="wk-mp-submenu">
+                    <ul>
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpauction/account/index')) || !$isSellerGroup) { ?>
+                            <li class="level-2">
+                                <a href="<?php echo $block->getUrl('mpauction/account/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                    <span><?php echo __('Add Auction') ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpauction/account/auctionlist')) || !$isSellerGroup) { ?>
+                            <li class="level-2">
+                                <a href="<?php echo $block->getUrl('mpauction/account/auctionlist', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                    <span><?php echo __('Auction Product List') ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</li>
+<?php } ?>

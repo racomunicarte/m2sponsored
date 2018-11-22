@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * Webkul_MpAuction Detail Page.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+?>
+<?php $autoAuctionDetails = $block->getAutoAuctionDetails(); ?>
+<?php echo $block->getChildHtml('info'); ?>
+<?php if ($autoAuctionDetails && count($autoAuctionDetails)): ?>
+    <div class="table-wrapper ">
+        <table class="data table" id="my-auction-bid-table">
+            <caption class="table-caption"><?php echo __('Auctions Bid') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col"><?php echo __('Product Name') ?></th>
+                    <th scope="col" class="col"><?php echo __('Bidding Price') ?></th>
+                    <th scope="col" class="col"><?php echo __('Winning Price') ?></th>
+                    <th scope="col" class="col"><?php echo __('Bid Status') ?></th>
+                    <th scope="col" class="col"><?php echo __('Winning Status') ?></th>
+                    <!--th scope="col" class="col">&nbsp;</th-->
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($autoAuctionDetails as $autoAuction): ?>
+                    <tr>
+                        <td data-th="<?php echo $block->escapeHtml(__('Product Name ')) ?>" class="col">
+                            <?php $pro = $block->getProductDetail($autoAuction->getProductId()); ?>
+                            <a href="<?php  echo $pro['url'] ?>" target="_blank" class="action view">
+                                <span><?php echo $pro['name'] ?></span>
+                            </a>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Bidding Price')) ?>" class="col">
+                            <?php echo $block->formatPrice($autoAuction->getAmount()) ?>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Winning Price')) ?>" class="col">
+                            <?php echo $block->formatPrice($autoAuction->getWinningPrice()) ?>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Bid Status')) ?>" class="col"><?php echo $block->status($autoAuction->getStatus()) ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Winning Status')) ?>" class="col"><?php echo $block->winningStatus($autoAuction) ?>
+                        </td>
+                        <!--td data-th="<?php //echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?php //echo $block->getDeleteUrl($autoAuction->getEntityId()) ?>" class="action view">
+                                <span><?php //echo __('Delete') ?></span>
+                            </a>
+                        </td-->
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('You have no auto bid records.'); ?></span></div>
+<?php endif ?>

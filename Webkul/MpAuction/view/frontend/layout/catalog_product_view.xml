@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction View On Product layout.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Webkul_MpAuction::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="alert.urls" >
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" before="-" name="mpauction.detail.vew" as="auction_detail_view" cacheable="false" template="Webkul_MpAuction::viewonproduct.phtml" ></block>
+        </referenceContainer>
+        <referenceBlock name="product.info.details">
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="mp-bid-details" template="Webkul_MpAuction::auctiondetail.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Bid Details</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="mp-bid-details" >
+            <block class="Webkul\MpAuction\Block\History" name="normal-bid-details"  cacheable="false" ></block>
+            <block class="Webkul\MpAuction\Block\AutoBidHistory" name="automatic-bid-details"  cacheable="false" ></block>
+        </referenceContainer>
+    </body>
+</page>

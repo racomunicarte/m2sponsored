@@ -1,0 +1,196 @@
+<?php  
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$partner = $block->getProfileDetail();
+$shopUrl = $block->escapeHtml($partner['shop_url']);
+$sellerId = $partner->getSellerId();
+$sellerProductCount = $helper->getSellerProCount($sellerId);
+
+?>
+<?php $products = $block->getBestsellProducts(); ?>
+<input type="hidden" id="productpagevalue" value="2" />
+<input type="hidden" id="cat_active" name="cat_active" value="0" />
+<input type="hidden" id="filter_active" name="filter_active" value="custom" />
+<div class="selectdropdown desktopsort" id="filterdropdown">
+    <select id="filterdropdownselect">
+        <option value="position"><?php echo __('POPULARITY') ?></option>
+        <option value="name"><?php echo __('A-Z') ?></option>
+        <option value="most_recent"><?php echo __('NEWEST TO OLDEST') ?></option>
+    </select>
+    <script type="text/javascript">
+        require(['jquery', 'jquery/ui'], function($){ 
+            jQuery(document).ready(function(){
+                jQuery('#filterdropdownselect').change(function(){
+                    var filterValue = jQuery(this).val();
+                    jQuery('#filter_active').val(filterValue);
+                    var categoryid = jQuery('#cat_active').val();
+                    var sellerid = '<?php echo $sellerId; ?>';
+                    var url = '<?php echo $this->getUrl('sellercollectionupdate'); ?>';
+                    var sellerProductCount = '<?php echo $sellerProductCount ?>';
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        dataType: 'json',
+                        data: 'catid='+categoryid+'&sellerid='+sellerid+'&filter='+filterValue,
+                        cache: false,
+                        success: function(dataHtml) {
+                            var proCount = dataHtml['productcount']-1;
+                            jQuery('#appendproducts').html(dataHtml['products']);
+                            jQuery('#productpagevalue').val(2);
+                            var pageValue = jQuery('body').find('#productpagevalue').attr('value');
+                            var pageNo = Number(pageValue)+Number(1);
+                            var count = 3;
+                            if(proCount > count){
+                                jQuery('#loadProductsDiv').css('display','block');
+                            }else{
+                                jQuery('#loadProductsDiv').css('display','none');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</div>
+
+
+<?php if (count($products)) { ?>
+    <div id="products-recently-added" class="wk-mp-profile-block wk-mp-products-recently-added">
+        <div class="block block-account">   
+            <div class="block-title">   
+                <strong><span><h4><?php echo __("Recently Added Products") ?></h4></span></strong>
+            </div>
+        </div>
+        <?php				
+        $products = $block->getBestsellProducts();
+        $_helper = $this->helper('Magento\Catalog\Helper\Output');
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        ?>
+        <div class="page-products page-with-filter fieldset wk-mp-fieldset" <?php if($products->count()){ echo 'style="padding: 0;"';}?> id="products-recently-added2">
+            <?php
+            $_helper = $this->helper('Magento\Catalog\Helper\Output');
+            ?>
+            <div class="products wrapper grid products-grid">
+                <?php $iterator = 1; ?>
+                <ol class="products list items product-items">
+                    <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                    <?php foreach ($products as $_product): ?>
+                        <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                        <div class="product-item-info" data-container="product-grid">
+                            <?php
+                            $productImage = $block->getImage($_product, $image);
+                            ?>
+                            <?php // Product Image ?>
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?php echo $productImage->toHtml(); ?>
+                            </a>
+                            <div class="product details product-item-details">
+                                <?php
+                                    $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                                ?>
+
+
+                                <strong class="product name product-item-name">
+                                    <a class="product-item-link"
+                                    href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                        <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                    </a>
+                                </strong>
+
+                        <!-- Created by : MIS 1041 @14th September 2019 -->
+                        <!-- Reason: For Custom Attribute value display  -->
+                        <!-- Comment: Custom attribute value display code start -->  
+                        <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+                        $packaging = $_product->getResource()->getAttribute('packaging')->getFrontend()->getValue($_product);
+                        $Izod = $_product->getResource()->getAttribute('izod')->getFrontend()->getValue($_product);
+                        $class = $_product->getResource()->getAttribute('class')->getFrontend()->getValue($_product);
+                        $melt_flowa = $_product->getResource()->getAttribute('melt_flow')->getFrontend()->getValue($_product); 
+                        $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+                        $categories = $_product->getCategoryIds(); /*will return category ids array*/
+                        $stockObject = $objectManager->get('Magento\CatalogInventory\Api\StockRegistryInterface')->getStockItem($_product->getId());
+                        $Minimum_Qty = $stockObject->getMinSaleQty();
+                        $Maximum_Qty = $stockObject->getMaxSaleQty();
+                    ?>
+                        
+                        <div class="custom-attribute-mainparent">
+                            <div class="custom-attribute-class">
+                                <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('QTY Min - Max') ?></span>
+                                <?php echo $Minimum_Qty.' - '.$Maximum_Qty; ?>
+                            </div>
+                            <div class="custom-attribute-class">
+                                <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('Sub Category') ?></span>
+                                <?php
+
+                                    foreach($categories as $category){
+                                    $cat = $objectManager->create('Magento\Catalog\Model\Category')->load($category);
+                                   echo  $test =  $cat->getName();
+                                   
+                                    } 
+                               
+                                ?>
+                            </div>
+                            <div class="custom-attribute-class">
+                               <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('Product Class') ?></span> <?php echo $class; ?>
+                            </div> 
+                            <div class="custom-attribute-class">
+                               <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('Melt Flow') ?></span> <?php echo $melt_flowa; ?>
+                            </div>
+                            <div class="custom-attribute-class">
+                               <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('Izod') ?></span> <?php echo $Izod; ?>
+                            </div>
+                            <div class="custom-attribute-class">
+                               <span class="custom-attibute-label"><?= /* @escapeNotVerified */ __('Packaging') ?></span> <?php echo $packaging; ?>
+                            </div>
+                        </div>
+                        
+                        <!--  Comment: Custom attribute value display code End -->  
+
+
+                                <a class="product-item-inner"
+                                    href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                    <div class="product actions product-item-actions">
+                                        <button class="action tocart primary">
+                                            <span>
+                                                <span>
+                                                    <?php echo __('View Detail')?>
+                                                </span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <?php echo($iterator == count($products)+1) ? '</li>' : '' ?>
+                    <?php endforeach; ?>
+                </ol>
+
+                <?php if($sellerProductCount > 2): ?>
+                    <div id="loadmoreproduct">
+                        <a class="view-more"><?php echo __('View More') ?></a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+      <?php /*  <div class="wk-mp-collection-view-btn">
+            <a href="<?php echo $helper->getRewriteUrl('marketplace/seller/collection/shop/'.$shopUrl);?>" title="<?php echo __('View Collection')?>">
+                <?php echo __('View More', $sellerProductCount)?>
+            </a>
+        </div> */ ?>
+    </div>
+<?php } ?>
+<?php echo $block->getChildHtml()?>

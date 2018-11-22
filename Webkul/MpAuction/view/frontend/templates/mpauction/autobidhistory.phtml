@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Webkul_MpAuction Auto Bid History.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+?>
+<?php 
+$autoBidDetails = $block->getAutoBidDetails();
+if ($autoBidDetails) { ?>
+    <?php if ($autoBidDetails && count($autoBidDetails)): ?>
+        <div class="table-wrapper auto-bid-container">
+            <table class="data table" id="my-auction-bid-table">
+                <caption class="table-caption"><?php echo __('Auctions Bid') ?></caption>
+                <thead class="wk-auction-bid-table-header">
+                    <tr>
+                        <th scope="col" class="col"><?php echo __('Bidder Name') ?></th>
+                        <th scope="col" class="col"><?php echo __('Bid Amount') ?></th>
+                        <th scope="col" class="col"><?php echo __('Time Stamp') ?></th>
+                    </tr>
+                </thead>
+                <tbody class="wk-auction-bid-table-body">
+                    <?php foreach ($autoBidDetails as $autoAuction): ?>
+                        <tr>
+                            <td data-th="<?php echo $block->escapeHtml(__('Bidder Name ')) ?>" class="col">
+                                <?php echo $block->getCustomerName($autoAuction->getCustomerId()); ?>
+                            </td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Bid Amount')) ?>" class="col">
+                                <?php echo $block->formatPrice($autoAuction->getAmount()) ?>
+                            </td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Time Stamp')) ?>" class="col">
+                            <?php 
+                                echo $block->formatDate(
+                                        $autoAuction->getCreatedAt(), 
+                                        \IntlDateFormatter::MEDIUM, 
+                                        true
+                                    ); 
+                            ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    <?php else: ?>
+        <div class="message info empty auto-bid-container">
+            <span><?php echo __('You have no auto bid records.'); ?></span>
+        </div>
+    <?php endif ?>
+    <script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        $('.auto-bid-show').click(function(){
+            $('.auto-bid-container').toggleClass('show');
+            $('.auto-bid-container').slideToggle();
+            $('.auto-bid-container').next('.toolbar').slideToggle();
+            if ($('.auto-bid-container').hasClass('show')) {
+                $(this).text("<?php echo __('Hide Auto Bid') ?>");
+            } else {
+                $(this).text("<?php echo __('Show Auto Bid') ?>");
+            }
+        });
+    });
+</script>
+<?php } ?>
+

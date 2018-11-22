@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Webkul MpAuction account layout.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Webkul_MpAuction::css/style.css"/>
+    </head>
+    <body>
+        <attribute name="class" value="account"/>
+        <referenceContainer name="sidebar.main">
+            <referenceContainer name="customer_account_navigation">
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-auction-detail" ifconfig="wk_mpauction/general_settings/enable">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Auction Details</argument>
+                        <argument name="path" xsi:type="string">mpauction/account/bidsrecords</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-auto-bidding-detail" ifconfig="wk_mpauction/general_settings/enable">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Auto Bidding Details</argument>
+                        <argument name="path" xsi:type="string">mpauction/account/autobidding</argument>
+                    </arguments>
+                </block>
+            </referenceContainer>
+            <referenceContainer name="seller_account_navigation" >
+                <block class="Webkul\MpAuction\Block\Account\Navigation" name="mpauction-navigation" template="Webkul_MpAuction::mpauction/navigation.phtml" cacheable="false" />
+            </referenceContainer>
+        </referenceContainer>
+    </body>
+</page>

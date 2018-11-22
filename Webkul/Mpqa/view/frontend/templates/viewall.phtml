@@ -1,0 +1,240 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$helper = $this->helper('\Webkul\Mpqa\Helper\Data');
+$product = $block->getCurrentProduct();//get current product
+$product_id=$block->getCurrentProduct()->getId();
+$seller_id=$block->getSellerId();
+$login=0;
+
+
+if ($helper->checkLogin()) {
+	$buyer_id = $helper->getCustomerId();
+	$readonly = "readonly='readonly'";
+	$login=1;
+} else {
+	$buyer_email = '';
+	$buyer_name = '';
+	$readonly = '';
+	$buyer_id='';
+}
+$collection = $block->getCollection();
+?>
+<div class="box-collateral box-description">
+<div>
+	<div class='pimg'>
+		<a href='<?php echo $product->getProductUrl(); ?>' target="_blank" class='hrefa' > <img src="<?php echo $block->imageHelperObj()->init($product, 'product_page_image_medium')->getUrl();?>"  class="wk_mpqa_image" /> </a>
+	</div> 
+	<div class='pinfo'> 
+		<?php $procontent = strlen($product->getDescription())>27?substr($product->getDescription(),0,27)."..":$product->getDescription(); ?>
+		<div> 
+			<label class="plabl"><?php echo __('Product Name:') ?></label> 
+			<a href='<?php echo $product->getProductUrl(); ?>' target="_blank" class='hrefa' >
+				<label class="nlabl"> <?php echo $product->getName(); ?> </label> 
+			</a>  
+		</div>  
+		<div> 
+			<label class="plabl"><?php echo __('Product Description:') ?></label> 
+			<span class="nlabl"><?php echo $product->getDescription(); ?> </span> 
+		</div>
+	</div>
+</div>
+
+		<div id="search-bar">
+			<form action="<?php echo $block->getUrl('mpqa/mpqaquest/viewall/').'id/'.$product_id;?>" method="post" class="search-form">
+				<div class="search_bar">
+					<input type="text" placeholder="<?php echo __('Search or Ask Question')?>" name="q" id="wk-searchqa" value="<?php echo $block->escapeHtml($block->getRequest()->getParam('q')) ?>">
+				</div>
+				<div class="search_action"><button class="search_button action primary"><span><?php echo __('Search')?></span></button></div>
+			</form>
+			<span class="wk-header-count"><?php echo $block->getQuestionsCount() ?></span><span class="wk-header-text"><?php echo __('Questions')?></span>
+			<span class="wk-header-count"><?php echo $block->getAnswersCount() ?></span><span class="wk-header-text"><?php echo __('Answers')?></span>
+		</div>
+		<div class="question-header">
+			<h4 id="header-text"><?php echo __('Displaying Questions')?></h4>
+			<?php 
+				if($this->getRequest()->getParam('q')!='') { ?>
+					<span class="wk-qa-action-viewall" id="wk-qa-action-helpful">
+						<span class="wk-qa-action-label"><?php echo $block->escapeHtml($this->getRequest()->getParam('q')); ?></span>
+						<a href="<?php echo $this->getUrl('mpqa/mpqaquest/viewall',['id'=>$this->getRequest()->getParam('id')]) ?>">
+							<button class="wk-qa-action-button-viewall">
+								<span class="wk-qa-action-button-close">Close</span>
+							</button>
+						</a>
+					</span>
+				<?php }
+				if(array_key_exists("helpful",$this->getRequest()->getParams())) { ?>
+					<span class="wk-qa-action-viewall" id="wk-qa-action-helpful">
+						<span class="wk-qa-action-label"><?php echo __('Most Helpful') ?></span>
+						<a href="<?php echo $this->getUrl('mpqa/mpqaquest/viewall',['id'=>$this->getRequest()->getParam('id')]) ?>">
+							<button class="wk-qa-action-button-viewall">
+								<span class="wk-qa-action-button-close">Close</span>
+							</button>
+						</a>
+					</span>
+				<?php }
+				if(array_key_exists("recent",$this->getRequest()->getParams())) { ?>
+					<span class="wk-qa-action-viewall" id="wk-qa-action-recent">
+						<span class="wk-qa-action-label"><?php echo __('Most Recent') ?></span>
+						<a href="<?php echo $this->getUrl('mpqa/mpqaquest/viewall',['id'=>$this->getRequest()->getParam('id')]) ?>">					
+							<button class="wk-qa-action-button">
+								<span class="wk-qa-action-button-close">Close</span>
+							</button>
+						</a>
+					</span>
+				<?php }
+			?>
+			<a href="<?php echo $block->getUrl('mpqa/mpqaquest/viewall/').'id/'.$product_id;?>/recent" class="header-links"><button class="action primary"><?php echo __('Most Recent')?></button></a>
+			<a href="<?php echo $block->getUrl('mpqa/mpqaquest/viewall/').'id/'.$product_id;?>/helpful" class="header-links"><button class="action primary"><?php echo __('Most Helpful')?></button></a>
+		</div>
+
+     <div class="all-questions">  
+    	<?php
+    	foreach($collection as $key){	 ?>
+    		<div  id="q-<?php echo $key->getQuestionId();?>">
+    		<div class="question">
+    			<div class="qlogo"><span>Q</span></div>
+    			<div class="ques">
+    				<div class="subj">
+    					<strong><span> <?php echo $key->getSubject(); ?></span></strong>
+    				</div>
+    				<div class="cont"><span class="wk_prewrap"><?php echo $key->getContent(); ?> </span></div>
+    				<div class="ques-user-info"><span><?php echo __('by ')?></span><span><?php echo $key->getQaNickname()?></span><span><?php echo __(' on ')?></span><span><?php echo $block->formatDate($key->getCreatedAt(),\IntlDateFormatter::MEDIUM) ?></span><br/>
+		    		</div>
+    			</div>
+    		</div>
+    		<?php
+    		$answers=$block->getQuestionAnswers($key->getQuestionId());
+			$answer_count = $block->getAnswerCount($key->getQuestionId());
+    		if($answer_count==0){ ?>
+    			<div class="answer">
+	    			<div class="alogo" id="q-<?php echo $key->getQuestionId();?>"><span>A</span></div>
+	    			<div class="answ"><a class="qa-ans"><button class="action primary"><span><?php echo __('Give Answer')?></span></button></a></div>
+	    		</div>
+	    	<?php
+    		}else{?>
+    			<div class="answer">
+	    				<div class="alogo" id="q-<?php echo $key->getQuestionId();?>"><span>A</span></div>
+	    		<?php $i=0;
+	    		foreach($answers as $ans){ 
+	    			$likes=0;$dislikes=0;
+	    			$reviews=$block->getReview($ans->getAnswerId());
+	    			$if_iscustomer=false;
+	    			
+	    			foreach ($reviews as $key) {
+	    				
+	    				if($key->getLikeDislike()==1)
+	    					$likes++;
+	    				else
+	    					$dislikes++;
+	    				if($key->getReviewFrom()==$buyer_id)
+	    					$if_iscustomer=true;
+	    			}
+	    			
+		    		?>	
+	    				<div class="answ"><span class="wk_prewrap"><?php echo $ans->getContent() ?></span>
+	    					<div class="user-info"><span><?php echo __('by ')?></span><span <?php if($ans->getRespondType()=='Admin') echo 'class="wk_admin"'; elseif($ans->getRespondType()=='Seller') echo 'class="wk_seller"'; ?>>
+	    						<?php echo $ans->getRespondNickname()?></span><span><?php echo __(' on ')?></span><span><?php echo $block->formatDate($ans->getCreatedAt(),\IntlDateFormatter::MEDIUM) ?></span><br/>
+	    						<div class="reviews">
+	    						
+			    					<span class="<?php if($if_iscustomer===false) echo 'like'; else echo 'liked';?>" title="like" dataid='<?php echo $ans->getAnswerId();?>' ></span>
+			    					<span><?php echo $likes; ?></span>
+			    					
+			    					<span class="<?php if($if_iscustomer===false) echo 'dislike'; else echo 'disliked'; ?>" title="dislike" dataid='<?php echo $ans->getAnswerId();?>'></span>
+			    					<span><?php echo $dislikes; ?></span>
+		    					</div>
+	    					</div>
+	    				</div>
+	    			
+	    		<?php  //
+	    		} 
+				if($answer_count>1){?> 
+	    			<div class="answ more"><a class="qa-ansmore" dataid='<?php echo $ans->getQuestionId();?>' ><span><?php echo __('View More').'('.($answer_count -1).')'?></span></a></div>
+	    		</div><?php 
+				}else{	?>
+					<div class="answe"><a class="qa-ans"><button class="action primary"><span><?php echo __('Give Answer') ?></span></button></a></div></div>	<?php
+				}
+	    	}
+    		?>
+    		</div>
+    	<?php
+    	}
+
+    	?>
+    	<div class="mainprt">
+		<a class="qa-question"><button class="action primary"><span><?php echo __('Ask Question');?></span></button></a>
+		</div>
+    	
+	</div>
+	<?php echo $block->getPagerHtml();?>
+</div>
+
+<!-- answer pop up -->
+<div class="ask-que">
+    <div id="wk-qa-ask-data" style="display:none">
+        <form id="qa-ans-form" method="post" action="#" class="fieldset">
+            <div class="form-list field required">
+                <label class="label"><?php echo __('Your Answer') ?> :</label>
+                <textarea  name="qa_answer" class="queryquestion wk-contact_input_fields required-entry" style="width:100%;"></textarea>
+                <label class="label"><?php echo __('Name to Display') ?> :</label>
+                <input type="text" name="qa_nickname" class="wk-contact_input_fields required-entry"/>
+                <input type="hidden" name="customer_id" value="<?php echo $buyer_id; ?>" >
+                <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>"/>
+                <input type="hidden" name="product_id" value="<?php echo $product_id;?>" />
+                <input type="hidden" name="question_id" value="" id="question-id">
+            </div>
+        </form>
+    </div>
+</div>
+<!-- question pop up -->
+<div class="ask-que">
+    <div id="wk-qa-ask-qa" style="display:none">
+        <form id="qa-ques-form" method="post" action="#" class="fieldset">
+            <div class="form-list field required">
+                <label class="label"><?php echo __('Subject') ?> :</label>
+                <input type="text" name="qa_subject" id="sub" class="wk-contact_input_fields required-entry"/>
+                <label class="label"><?php echo __('Query') ?> :</label>
+                <textarea  name="qa_content" id="content" class="queryquestion wk-contact_input_fields required-entry" style="width:100%;"></textarea>
+                <label class="label"><?php echo __('Name to Display') ?> :</label>
+                <input type="text" name="qa_nickname" id="qa_nickname" class="wk-contact_input_fields required-entry"/>
+                <input type="hidden" name="customer_id" value="<?php echo $buyer_id; ?>" >
+                <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>"/>
+                <input type="hidden" name="product_id" value="<?php echo $product_id;?>" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<?php
+$url = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+$login_url = $block->getUrl('customer/account/login', 
+      array('referer' => base64_encode($url))
+  );
+$formData = [
+    'viewall_ans_url' =>$block->getUrl("mpqa/mpqaquest/viewallanswer", ["_secure" => $this->getRequest()->isSecure()]),
+    'reviewanswer_url' => $block->getUrl("mpqa/mpqaquest/reviewanswer", ["_secure" => $this->getRequest()->isSecure()]),
+    'submitanswer_url'=> $block->getUrl("mpqa/mpqaquest/submitanswer", ["_secure" => $this->getRequest()->isSecure()]),
+    'question_url'  => $block->getUrl('mpqa/mpqaquest/savequestion', ["_secure" => $this->getRequest()->isSecure()]),
+    'product_id' => $product_id,
+    'buyer_id'  =>  $buyer_id,
+    'islogin'     => $login,
+    'seller_id'   => $seller_id,
+	'login_url' => $login_url
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "mpqa_tab": <?php  echo $serializedFormData; ?>
+        }
+    }
+</script>

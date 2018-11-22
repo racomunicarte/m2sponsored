@@ -1,0 +1,117 @@
+<!-- Created by : MIS 1041 @17th September 2019 -->
+<!-- Reason: For Custom seller product review display -->
+<!-- Comment: seller product review display code start -->  
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of Object Manager
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$store = $storeManager->getStore();
+$storeId = $store->getId();
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$partner = $block->getProfileDetail();
+$shopUrl = $block->escapeHtml($partner['shop_url']);
+$sellerId = $partner->getSellerId();
+if($sellerId):
+    $products = $block->getBestsellProducts();
+    $productId = array();
+    foreach ($products as $product) {
+        $productId[] = $product->getId();
+    }
+    $ratingModel = $objectManager->create('Magento\Review\Model\Rating\Option\Vote');
+    $reviewModel = $objectManager->create('Magento\Review\Model\Review')
+                    ->getCollection()
+                    ->addFieldToFilter('entity_pk_value', array('in'=>$productId))
+                    ->setOrder('created_at', 'DESC')->setPageSize(5)->setCurPage(1);
+
+    $reviewModelCount = $objectManager->create('Magento\Review\Model\Review')
+                    ->getCollection()
+                    ->addFieldToFilter('entity_pk_value', array('in'=>$productId))
+                    ->setOrder('created_at', 'DESC');
+
+    $reviewModelCountData = 0;
+    if(count($reviewModelCount)){
+        $reviewModelCountData = count($reviewModelCount);
+    }
+    $helperImport = $objectManager->get('\Magento\Catalog\Helper\Image');
+    if(count($reviewModel)){
+        $reviewModelCountData = count($reviewModelCount);
+    
+?>
+    <div id="seller-custom-review" class="seller-custom-review">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="block-title"><?php echo __('Reviews') ?></h3>
+            <div class="reviewdata">
+                <input type="hidden" id="reviewpagevalue" value="2" />
+                <ul id="#reviews2" class="reviewuldata">
+                    <?php 
+                        foreach ($reviewModel as $reviewData) {  
+                            $reviewId = $reviewData->getReviewId();
+                            $productId = $reviewData['entity_pk_value'];
+                            $productModel = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+                            $productURL = $productModel->getProductUrl();
+                            
+                    ?>
+                        <li class="reviewitem">
+                            <div class="review-author-content">
+                            <p class="review-author"><strong class="review-details-value" itemprop="author"><?php echo $reviewData->getNickname(); ?></strong></p>
+                            <div class="review-date">
+                                <span class="review-details-label"><?php echo __('wrote on') ?></span>
+                                <time class="review-details-value" itemprop="datePublished"><?php echo date("d F Y", strtotime($reviewData->getCreatedAt()) ) ?></time>
+                                 <span class="review-details-label"><?php echo __('for') ?></span>
+                                 <a href="<?php echo $productURL; ?>"><?php echo $productModel->getName(); ?></a>
+                            </div>
+                            <div class="review-ratings">
+                                    <?php  
+                                    $ratingModelCollection = $ratingModel->getCollection()->addFieldToFilter('review_id', array('eq' => $reviewId));
+                                    foreach($ratingModelCollection as $ratingModelCollectionData){
+                                        if($reviewId == $ratingModelCollectionData->getReviewId()){
+                                            if($ratingModelCollectionData->getRatingId() == 1){
+                                                $pricePercent = $ratingModelCollectionData->getPercent();
+                                            ?>
+                                                <div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+                                                    <div class="rating-result" title="<?php echo $pricePercent ?>%">
+                                                        <meta itemprop="worstRating" content="1">
+                                                        <meta itemprop="bestRating" content="100">
+                                                        <span style="width: <?php echo $pricePercent ?>%" class="rating-<?php echo $pricePercent ?>">
+                                                            <span itemprop="ratingValue"><?php echo $pricePercent ?>%</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <?php 
+                                            }
+                                        }
+                                    }
+                                    ?>
+                            </div>
+                            <div class="review-content-lis" itemprop="description"><?php echo $reviewData->getDetail()?></div>  
+                        </li>
+                    <?php } ?>
+                    
+                </ul>
+                <?php  if($reviewModelCountData > 2): ?>
+                    <div id=viewmorereview><a class="view-more"><?php echo __('Read More') ?></a></div>
+                <?php endif;  ?>
+                    
+            </div>
+        </div>      
+    </div>
+    </div>
+<?php }else{
+//  echo __('No Reviews found.');
+} endif; ?>
+<!-- Comment: seller product review display code end-->  
+<script type="text/javascript">
+require(['jquery', 'jquery/ui'], function($){
+    jQuery(document).ready(function(){
+    jQuery('.reviewdata #viewmorereview').on('click', function(){
+                jQuery(this).parent().find('li').css('display','inline-block');
+                jQuery(this).hide();
+            });
+ });
+});
+</script>
+<style type="text/css">
+div#seller-custom-review .reviewdata li:nth-of-type(3),
+div#seller-custom-review .reviewdata li:nth-of-type(4),
+div#seller-custom-review .reviewdata li:nth-of-type(5){display: none;}
+</style>

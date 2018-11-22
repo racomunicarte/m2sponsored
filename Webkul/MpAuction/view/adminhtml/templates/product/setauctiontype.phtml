@@ -1,0 +1,23 @@
+<?php 
+/**
+ * Webkul MpAuction Product Edit set Auction Type
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+
+$auctionType = $block->getAuctionType();
+if ($auctionType) { ?>
+	<script type="text/x-magento-init">
+	    {
+	        "*": {
+	            "setauctiontype": {"auctiontype": "<?php /* @noEscape */ echo $auctionType;?>"}
+	        }
+	    }
+	</script>
+<?php } ?>
+

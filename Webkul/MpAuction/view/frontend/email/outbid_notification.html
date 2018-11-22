@@ -1,0 +1,83 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<!--@subject Admin : Someone bid higher amount on auction product @-->
+<!--@vars {
+"var this.getUrl($store, 'customer/account/')":"Customer Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <!-- [ header starts here] -->
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="5" border="0" width="650" style="color:black;">
+        <!-- [ middle starts here] -->
+            <tr>
+                <td valign="top">
+                    <p>{{trans "Hello "}}{{var name}},</p>
+                    <p>
+                       {{var message}}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="5" border="0" style="color:black;">
+                        <tbody>
+                            {{if !autobid}}
+                            <tr>
+                                <td style="width:150px;">{{trans "Hike"}}</td>
+                                <td>- </td>
+                                <td>{{var hike}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">{{trans "New Higher Bid"}}</td>
+                                <td>- </td>
+                                <td>{{var higheramount}}</td>
+                            </tr>
+                            {{/if}}
+                            <tr>
+                                <td style="width:150px;">{{trans "Date"}}</td>
+                                <td>- </td>
+                                <td>{{var date}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">{{trans "Your Bid"}}</td>
+                                <td>- </td>
+                                <td>{{var yourbid}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">{{trans "Product"}}</td>
+                                <td>- </td>
+                                <td><a href='{{var ProductUrl}}'>{{var productName}}</a></td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">{{trans "Bid End Time"}}</td>
+                                <td>- </td>
+                                <td>{{var bidendtime}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <a href="{{var ProductUrl}}"><button class="button" style="padding:10px;color:white;background:#f2783a;font-weight:600;border-radius:3px;border:unset;">{{trans "Place Your Bid"}}</button></a>
+                    <br/><br/>
+                    {{var comment}}
+                    <p style="font-size:12px; margin:0 10px 10px 0"></p>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

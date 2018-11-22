@@ -1,0 +1,44 @@
+<!--
+/**
+ * Webkul_MpAuction Navigation.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<?php 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+if ($helper->isSeller() && $block->isAuctionEnable()){ ?>
+	<li class="mp-auction nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('mpauction/account')?>">  
+		<?php if($block->getCurrentNavClass('mpauction/account')){ ?>   
+		    <strong><?php /* @escapeNotVerified */ echo __('Auction') ?></strong>        
+		<?php 
+		} else { ?>    
+		    <a href="#"><?php /* @escapeNotVerified */ echo __('Auction') ?></a>                
+		<?php } ?>
+		<ul class="nav items">
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('mpauction/account/index');?>">
+				<?php if ($block->getCurrentNavClass('mpauction/account/index')) { ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Add Auction') ?></strong>        
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('mpauction/account/index')?>">
+				        <?php /* @escapeNotVerified */ echo __('Add Auction') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('mpauction/account/auctionlist');?>">
+				<?php if($block->getCurrentNavClass('mpauction/account/auctionlist')){ ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Auction Product List') ?></strong>        
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('mpauction/account/auctionlist')?>">
+				        <?php /* @escapeNotVerified */ echo __('Auction Product List') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+		</ul>   
+	</li>
+<?php } ?>

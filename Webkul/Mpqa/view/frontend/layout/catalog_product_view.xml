@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Webkul_Mpqa::css/style.css" />
+	</head>
+    <body>
+        <referenceBlock name="product.info.details">
+            <block class="Webkul\Mpqa\Block\Mpqaproductquestion" name="mpqa.tab" template="Webkul_Mpqa::tab.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Q/A</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="qa-authentication-popup" as="qa-authentication-popup" template="Webkul_Mpqa::account/authentication-popup.phtml">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="qaauthenticationPopup" xsi:type="array">
+                                <item name="component" xsi:type="string">Webkul_Mpqa/js/view/authentication-popup</item>
+                                <item name="children" xsi:type="array">
+                                    <item name="messages" xsi:type="array">
+                                        <item name="component" xsi:type="string">Magento_Ui/js/view/messages</item>
+                                        <item name="displayArea" xsi:type="string">messages</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,309 @@
+/**
+ * Webkul_Auction css.
+ * @category  Webkul
+ * @package   Webkul_Auction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2016 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+#form-biddings-amount .input-box {
+    display:inline-block;
+    width:100%;
+}
+.wk_row .label, .wk_row .value,
+ #wk_front_dd_note{
+    display:inline;
+}
+.wk_row .label{
+    font-weight: 600;
+}
+.wk_row .value{
+    font-weight: 600;
+}
+.wk_wrap .mp_bidding_form{
+    display:inline-block;
+    vertical-align:middle;
+    width: 100%;
+}
+.sidebar-additional .wk_product_background
+.bid_title{
+    display : none;
+}
+.sidebar-additional .wk
+.block-content{
+    text-align: center;
+}
+.sidebar-additional
+.wk_row .bid_link{
+    display:none;
+}
+.sidebar-additional #target{
+    width: 100%;
+    margin-top: 10px;
+    display:block;
+}
+
+.sidebar-additional .count-down-clock.value,
+#form-biddings-amount .input-box.auto-bid{
+    display:block;
+    display: inline-block;
+    margin-top: 10px;
+}
+#form-biddings-amount .input-box.auto-bid input{
+    vertical-align: middle;
+}
+.sidebar-additional .wk_product_background{
+    margin-bottom: 20px;
+}
+
+.wk-auction-clock{
+    text-align: right;
+    font-weight: 600;
+}
+.product-add-form{
+    display:none;
+}
+.message.info.message.info.empty{
+    display:block;
+}
+.auto-bid-show{
+    font-weight: 600;
+    cursor: pointer;
+}
+.auto-bid-show-container{
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+/* Bid History Page*/
+#my-auction-table{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+.auction_rule{
+    border:1px solid #ccc;
+    margin-bottom: 30px;
+}
+.auction_rule .label{
+    border-bottom:1px solid #ccc;
+    font-weight: 700;
+    padding: 5px 10px;
+    background-color: #ccc;
+}
+.auction_rule p{
+    margin-bottom: auto;
+    padding:5px;
+}
+
+.wk_product_background{
+    padding: 20px;
+    border: 1px solid #c1c1c1;
+}
+#bottom_lin .bid_title{
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.mp-auction{
+    position: relative;
+}
+.mp-auction ul.nav{
+    display:none;
+    top: 0px;
+    position: absolute;
+    background-color: #f5f5f5;
+    margin-left: 35%;
+    border: 1px solid rgb(204, 204, 204);
+}
+.mp-auction:hover ul.nav{
+    display:block;
+    z-index: 9999;
+}
+.block-collapsible-nav .mp-auction.current .item a {
+    font-weight: normal;
+    border-left:none;
+}
+/* auction list display*/
+.wk-first-td.qty,
+.wk-first-td.status{
+    width:10%;
+}
+.wk-first-td.options{
+    width:22%;
+}
+.wk-first-td.name{
+    width:30%;
+}
+/* add auction page*/
+#admin-inc-price-contener, .label.table, #inc-price-contener {
+    display: none;
+}
+#admin-inc-price-contener.show, #inc-price-contener.show, .label.table.show {
+    display: inline-table;
+}
+
+.wk_front_dd_set_time {
+    width: 60px;
+    display: inline-block;
+}
+.wk-auction-clock-main-div {
+    position: relative;
+}
+.wk-auction-clock-label-dd {
+    float:left;
+    padding-left: 3px;
+    font-size: 1.3rem;
+}
+.wk-auction-clock-label-hr {
+    float:left;
+    padding-left: 3px;
+    font-size: 1.3rem;
+}
+.wk-auction-clock-label-mi {
+    float:left;
+    padding-left: 3px;
+    font-size: 1.3rem;
+}
+.wk-auction-clock-label-sec {
+    float:left;
+    padding-left: 3px;
+    font-size: 1.3rem;
+}
+.wk-auction-clock-main-div {
+    width: 70%;
+    display: inline-block;
+    float: left;
+}
+.wk-auction-current-bid {
+    width: 30%;
+    display: inline-block;
+    float: right;
+    overflow-x: auto;
+}
+.auction-bid-first-column {
+    width: 45%;
+    display: inline-block;
+    float: left;
+}
+.auction-bid-second-column {
+    width: 55%;
+    display: inline-block;
+    float: left;
+}
+.auction-timer-block {
+    display: inline-block;
+    width: 100%;
+}
+.wk-auction-timer-div {
+    display: inline-block;
+    width: 100%;
+}
+.wk-auction-bid-details .wk_row {
+    padding-top:10px;
+}
+.wk-auction-bid-details {
+    width:100%;
+    display: inline-block;
+}
+.form-add {
+    margin-top: 10px;
+}
+.form-add #bidding_amount{
+    width: 79%;
+    float: left;
+    display: inline-block;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.form-add #target {
+    float: left;
+    display: inline-block;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+}
+#auto_bid_allowed {
+    Height: 15px;
+    Width:15px;
+}
+.auto-bid span {
+    vertical-align: middle;
+}
+.view-bid-details {
+    float: right;
+}
+.wk-auction-bids-record-box {
+    display: inline-block;
+    width:100%;
+}
+.wk-auction-auction-details {
+    display:inline-block;
+    width:45%;
+    float:left;
+}
+.wk-auction-bids-record {
+    display: inline-block;
+    width:50%;
+    float:right;
+}
+.wk-curr-amount-td {
+    width:30%;
+}
+.wk-auction-bid-rule {
+    text-align: justify;
+}
+.wk-auction-bid-table-header{
+    border-top: 1px solid #c1c1c1;
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+    background: #f6f6f6;
+}
+.wk-auction-bid-table-body tr {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+@media  screen and (max-width: 767px) and (min-width:0px) {
+    .form-add #bidding_amount {
+        width: 73%;
+    }
+    .wk-auction-auction-details {
+        width:100%;
+    }
+    .wk-auction-bids-record {
+        width:100%;
+    }
+}
+.wk-auction-clock-span {
+    font-size: 3.4rem;
+}
+.wk-seller-auction-incremental-rule{
+    display:none;
+    width:100%;
+}
+.wk-seller-increment-rule {
+    display: inline-block;
+    width: 100%;
+}
+.show-incremental-rule{
+    display: none;
+}
+.show-incremental-rule.show{
+    display: inline-block;
+    width:100%;
+}
+.auction-winner-message {
+    color: #0d904f;
+    font-weight: 600;
+    font-style: italic;
+}
+@media only screen and (max-width: 959px) and (min-width: 0px) {
+    .mpauction-account-index .wk-first-td {
+        width: 26%!important;
+    }
+}
+#wk-auction-dd{
+    width: 77px;
+}

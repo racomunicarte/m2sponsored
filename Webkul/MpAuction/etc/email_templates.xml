@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul MpAuction Email Templates xml
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="wk_mpauction_emails_admin_notify_email_template" label="Notify to admin on new bid" file="admin_notification.html" type="html" module="Webkul_MpAuction" area="frontend"/>
+    <template id="wk_mpauction_emails_seller_notify_email_template" label="Notify to seller on new bid" file="seller_notification.html" type="html" module="Webkul_MpAuction" area="frontend"/>
+    <template id="wk_mpauction_emails_winner_notify_email_template" label="Winner Notification" file="winner_notification.html" type="html" module="Webkul_MpAuction" area="frontend"/>
+    <template id="wk_mpauction_emails_outbid_notify_email_template" label="Notify to bidder's when higher bid arrive" file="outbid_notification.html" type="html" module="Webkul_MpAuction" area="frontend"/>
+    <template id="wk_mpauction_emails_bidder_notify_email_template" label="Notify to bidder on submit bid" file="bidder_notification.html" type="html" module="Webkul_MpAuction" area="frontend"/>
+</config>

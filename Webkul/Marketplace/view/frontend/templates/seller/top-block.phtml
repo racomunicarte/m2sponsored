@@ -1,0 +1,229 @@
+<?php  
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$helperOrders = $this->helper('Webkul\Marketplace\Helper\Orders');
+$partner = $block->getProfileDetail();
+if ($partner['shop_url']) {
+    $bannerpic = $partner->getBannerPic()!=''?$partner->getBannerPic():"banner-image.png";
+    $bannerpic = $helper->getMediaUrl().'avatar/'.$bannerpic;
+    
+    $logo = $partner->getLogoPic()!=''?$partner->getLogoPic():"noimage.png";
+    $logo = $helper->getMediaUrl().'avatar/'.$logo;
+
+    $sizeArr = $helper->getImageSize($logo);
+    if (!empty($sizeArr) && !empty($sizeArr['width']) && !empty($sizeArr['height'])) {
+        $width = $sizeArr['width'];
+        $height = $sizeArr['height'];
+        $calculatedHeight = 120;
+        $calculatedWidth = ($width / $height) * $calculatedHeight;
+        $calculatedPercent = ($width / $height) * 2.5;
+        if ($calculatedHeight) { ?>
+            <style>
+                .wk-mp-collection-seller-title-container {
+                    
+                }
+            </style>
+            <?php
+        }
+    }
+
+    $shopUrl = $block->escapeHtml($partner['shop_url']);
+    $shoptitle = $block->escapeHtml($partner->getShopTitle());
+    if (!$shoptitle) {
+        $shoptitle = $shopUrl;
+    }
+    $sellerId = $partner->getSellerId();
+    $locsearch = $block->escapeHtml($partner['company_locality']);
+    $sellerProductCount = $helper->getSellerProCount($sellerId);
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $products = $block->getBestsellProducts();
+    $productId = array();
+    foreach ($products as $product) {
+        $productId[] = $product->getId();
+    }
+    $reviewModel = $objectManager->create('Magento\Review\Model\Review')
+    ->getCollection()
+    ->addFieldToFilter('entity_pk_value', array('in'=>$productId))
+    ->setOrder('created_at', 'DESC');
+    $ratingModel = $objectManager->create('Magento\Review\Model\Rating\Option\Vote');
+    $totalReview = 100;
+    $pricePercent = 0;
+    $i = 1;
+    foreach ($reviewModel as $reviewData) {
+        $reviewId = $reviewData->getReviewId();
+        $ratingModelCollection = $ratingModel->getCollection()->addFieldToFilter('review_id', array('eq' => $reviewId));
+        foreach($ratingModelCollection as $ratingModelCollectionData){
+            if($reviewId == $ratingModelCollectionData->getReviewId()){
+                if($ratingModelCollectionData->getRatingId() == 1){
+                    $pricePercent += $ratingModelCollectionData->getPercent();
+                }
+            }
+        }
+        $i++;
+    }
+    if($pricePercent != 0){
+        $totalReview = $pricePercent/$i;
+    }
+
+
+
+    if($helper->getActiveColorPicker()){?> 
+        <style>
+            .marketplace-seller-collection .wk-mp-collection-product-count-container,
+            .marketplace-seller-profile .wk-mp-collection-product-count-container,
+            .marketplace-seller-feedback .wk-mp-collection-rating-count-container {
+                border-bottom-color: <?php echo $block->escapeHtml($partner['background_width']);?>;
+            }
+        </style>
+    <?php
+    } ?>
+    <div class="wk-mp-collection-header-box">
+        <div class="wk-mp-collection-seller-title-container">
+            <div class="seller-images-cls">
+                <a href="<?php echo $helper->getRewriteUrl('marketplace/seller/profile/shop/'.$shopUrl);?>" >
+                    <img class="wk-mp-collection-logo" src="<?php echo $logo;?>" />
+                </a>
+            </div>
+            <div class="name-rating">
+                <span class="wk-mp-collection-seller-title wk-mp-collection-header-css">
+                    <a href="<?php echo $helper->getRewriteUrl('marketplace/seller/profile/shop/'.$shopUrl);?>">
+                        <?php echo $shoptitle?>
+                    </a>
+                </span>
+                <div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+                        <div class="rating-result" title="<?php echo $totalReview ?>%">
+                            <meta itemprop="worstRating" content="1">
+                            <meta itemprop="bestRating" content="100">
+                            <span style="width: <?php echo $totalReview ?>%" class="rating-<?php echo $totalReview ?>">
+                                <span itemprop="ratingValue"><?php echo $totalReview ?>%</span>
+                            </span>
+                        </div>
+                </div>
+                <div class="seller-address-detail">
+                    <div class="detail">
+                    <?php
+                    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    // $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+                    // $customer = $customerSession->getCustomer();  
+                    // $shippingAddress = $customer->getDefaultShippingAddress();
+                    // // echo "<pre>"; print_r($shippingAddress->getData()); exit();
+                    // $street = $shippingAddress['street'];
+                    // $city = $shippingAddress['city'];
+                    // $region = $shippingAddress['region'];
+                    // $country_id = $shippingAddress['country_id'];
+                    // $postcode = $shippingAddress['postcode'];
+                   // echo $street.' '.$city.' '.$region.' '.$country_id.' '.$postcode;
+                    ?>
+                    </div>
+                </div>
+            </div>
+            <?php if ($locsearch) { ?>
+                <div class="wk-mp-collection-seller-title wk-mp-collection-header-bottom">
+                    <a title="<?php echo __('Search') ?>" href="<?php echo  $helper->getRewriteUrl('marketplace/seller/location/shop/'.$shopUrl)."?loc=".$locsearch?>" target="_blank">
+                        <span class="wk-mp-collection-location wk-mp-collection-header-bottom-txt">
+                            <?php echo __($locsearch); ?>
+                        </span>                        
+                    </a>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="wk-mp-collection-header-right-wrapper">
+            <div class="wk-mp-collection-header-right wk-mp-seller-profile-wrapper">
+                <?php echo $block->getChildHtml("marketplace_seller_profile_contact")?>
+                <?php if ($helper->getSellerPolicyApproval()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-collection-header-bottom-txt">
+                        <a href="javascript:void(0)" data-scroll-to="#wk-mp-policy-block" data-scroll-focus="#return-policy" data-scroll-speed="700" data-scroll-offset="130">                            
+                            <?php echo __('Terms and Conditions')?>
+                        </a>
+                    </div>
+                <?php } ?>
+                <?php echo $block->getChildHtml("marketplace_seller_profile_menu")?>
+                <?php if ($partner->getFbActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//facebook.com/<?php echo $block->escapeHtml($partner->getFacebookId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-fb" title="<?php echo __('Check in Facebook')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getTwActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//twitter.com/<?php echo $block->escapeHtml($partner->getTwitterId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-tw" title="<?php echo __('Check in Twitter')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getGplusActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//plus.google.com/<?php echo $block->escapeHtml($partner->getGplusId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-gplus" title="<?php echo __('Check in Google+')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getVimeoActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//vimeo.com/<?php echo $block->escapeHtml($partner->getVimeoId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-vimeo" title="<?php echo __('Check in Vimeo')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getYoutubeActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//www.youtube.com/user/<?php echo $block->escapeHtml($partner->getYoutubeId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-youtube" title="<?php echo __('Check in Youtube')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getInstagramActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//www.instagram.com/<?php echo $block->escapeHtml($partner->getInstagramId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-instagram" title="<?php echo __('Check in Instagram')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                }
+                if ($partner->getPinterestActive()) { ?>
+                    <div class="wk-mp-seller-profile-box wk-mp-profile-icon-wrapper">
+                        <a href="//www.pinterest.com/<?php echo $block->escapeHtml($partner->getPinterestId());?>" target="blank">
+                            <span class="wk-mp-profile-icon-css wk-mp-profile-icon-pinterest" title="<?php echo __('Check in Pinterest')?>"></span>
+                        </a>
+                    </div>
+                <?php 
+                } ?>
+            </div>
+            <div class="wk-mp-collection-header-right wk-mp-collection-count-wrapper">
+                <div class="wk-mp-collection-product-right">
+                    <div class="wk-mp-collection-rating-count-container wk-mp-collection-header-css">
+                        <div class="wk-mp-collection-header-bottom wk-mp-collection-header-bottom-txt">
+                            <a href="javascript:void(0)" data-scroll-to="#seller-custom-review" data-scroll-focus="#reviews2" data-scroll-speed="700" data-scroll-offset="130">
+                            <?php echo __('Review')?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="wk-mp-collection-product-count-container wk-mp-collection-header-css">
+                    <div class="wk-mp-collection-header-bottom wk-mp-collection-header-bottom-txt">
+                        <a href="javascript:void(0)" data-scroll-to="#products-recently-added" data-scroll-focus="#products-recently-added2" data-scroll-speed="700" data-scroll-offset="130">                            
+                        <?php echo __('Products')?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php }  ?>

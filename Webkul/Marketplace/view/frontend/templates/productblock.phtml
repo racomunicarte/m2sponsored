@@ -1,0 +1,60 @@
+<!-- Created by : MIS 1041 @12th September 2019 -->
+<!-- Reason: For seller detail section display in product page-->
+<!-- Comment: code start --> 
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$product = $block->getProduct();
+$sellerId = '';
+$marketplaceProduct = $helper->getSellerProductDataByProductId($product['entity_id']);
+foreach ($marketplaceProduct as $value) {
+    $sellerId = $value['seller_id'];
+}
+if ($sellerId!="") {
+    $captchenable = $helper->getCaptchaEnable();
+    $rowsocial = $helper->getSellerDataBySellerId($sellerId);
+    $shoptitle = '';
+    $shop_url = '';
+     $logo = "noimage.png";    
+    $companyLocality = '';
+    $facebookId = $instagramId = $pintrestId = $twitterId = '';
+    foreach ($rowsocial as $value) {
+        //echo "<pre>"; print_r($value->getData()); exit;
+       $shoptitle = $value['shop_title'];
+        $shop_url = $value['shop_url'];
+        $logopic = $value['logo_pic'];
+        if (!$shoptitle) {
+            $shoptitle = $value->getShopUrl();
+        }
+        if($logopic != ''){
+            $logo = $logopic;
+        }
+    }
+    $logo = $helper->getMediaUrl().'avatar/'.$logo;
+    $shoptitle = $block->escapeHtml($shoptitle);
+    $feeds = $helper->getFeedTotal($sellerId);
+    ?>
+    <div class="seller-section-custom" id="mp-wk-block">
+        <span class="sold-by-sellertitle"><?php echo __('Sold By')?></span> 
+            <div class="seller-img"><a href="<?php echo $this->getUrl().'marketplace/seller/profile/shop/'.$shop_url; ?>"><img src="<?php echo $logo; ?>"  /></a></div>
+              <div class="seller-name">
+
+                <a href="<?php echo $helper->getRewriteUrl('marketplace/seller/profile/shop/'.$shop_url);?>" title="<?php echo __('Visit Shop') ?>" id="profileconnect"><?php echo $shoptitle; ?></a>
+            </div>
+        <div class="see-detail-profile-link"><a href="<?php echo $this->getUrl().'marketplace/seller/profile/shop/'.$shop_url; ?>"><?php echo __('Seller Detail')?></a> </div>
+    </div>
+   
+<?php
+} ?>
+<!-- Comment: code end --> 

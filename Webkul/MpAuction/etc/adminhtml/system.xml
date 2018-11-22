@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction Configuration Fields
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="webkul" translate="label" sortOrder="10">
+            <label>Webkul</label>
+        </tab>
+        <section id="wk_mpauction" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Marketplace Auction</label>
+            <tab>webkul</tab>
+            <resource>Webkul_MpAuction::config_mpauction</resource>
+            <group id="general_settings" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Standard Auction</label>
+                <field id="enable" translate="label comment" sortOrder="1" type="select" showInDefault="1" >
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_curt_auc_price" translate="label comment" sortOrder="2" type="select" showInDefault="1" >
+                    <label>Show Current Bid Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_bidder" translate="label comment" sortOrder="3" type="select" showInDefault="1" >
+                    <label>Show Bidder Name</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_price" translate="label comment" sortOrder="4" type="select" showInDefault="1" >
+                    <label>Show Bid Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_auc_detail" translate="label comment" sortOrder="5" type="select" showInDefault="1" >
+                    <label>Show Auction details</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_winner_msg" translate="label comment" sortOrder="6" type="textarea" showInDefault="1" >
+                    <label>Show Winner Message</label>
+                </field>
+                <field id="auction_rule" translate="label comment" sortOrder="7" type="textarea" showInDefault="1" >
+                    <label>Auction Rule</label>
+                </field>
+            </group>
+            <group id="increment_option" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Increment Auction Option</label>
+                <field id="enable" translate="label" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Incremental Auction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="price_range" translate="label comment" type="button" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Webkul\MpAuction\Block\System\Config\Form\IncrementalPriceRange</frontend_model>
+                </field>
+            </group>
+            <group id="auto" translate="label"  sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Automatic Auction Option</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Automatic Auction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="limit" translate="label comment" type="select" sortOrder="2" showInDefault="1" >
+                    <label>Customers can change autobid price for multiple times</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="use_increment" translate="label comment" type="select" sortOrder="3" showInDefault="1" >
+                    <label>Use Incremental Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_bid_amount" translate="label comment" type="select" sortOrder="4" showInDefault="1" >
+                    <label>Show Automatic Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_autobidder_name" translate="label comment" type="select" sortOrder="5" showInDefault="1" >
+                    <label>Show Automatic Bidders Name</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_auto_details" translate="label comment" type="select" sortOrder="6" showInDefault="1" >
+                    <label>Show Automatic Bidder Details</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_auto_outbid_msg" translate="label comment" type="select" sortOrder="7" showInDefault="1" >
+                    <label>Show Outbid Message</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_auto_outbid_msg" translate="label comment" type="textarea" sortOrder="8" showInDefault="1" >
+                    <label>Outbid Message</label>
+                </field>
+            </group>
+            <group id="reserve_option" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Reserve Auction Option</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" >
+                    <label>Require Reserve Price</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <!--field id="price" translate="label comment" type="text" sortOrder="3" showInDefault="1" >
+                    <label>Global Reserve Price</label>
+                    <validate>validate-zero-or-greater</validate>
+                </field-->
+            </group>
+            <group id="emails" translate="label" type="text" sortOrder="5" showInDefault="1" >
+                <label>Email Notification Option</label>
+                <field id="enable_admin_email" translate="label comment" type="select" sortOrder="1" showInDefault="1" >
+                    <label>Email Notification to Admin</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_notify_email_template" translate="label comment" type="select" sortOrder="2" showInDefault="1" >
+                    <label>Admin notification email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_admin_email">1</field>
+                    </depends>
+                </field>
+                <field id="enable_seller_email" translate="label comment" type="select" sortOrder="3" showInDefault="1" >
+                    <label>Email Notification to Seller</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="seller_notify_email_template" translate="label comment" type="select" sortOrder="4" showInDefault="1" >
+                    <label>Seller notification email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_seller_email">1</field>
+                    </depends>
+                </field>
+                <field id="enable_outbid_email" translate="label comment" type="select" sortOrder="5" showInDefault="1" >
+                    <label>Email notification to outbid buyer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="outbid_notify_email_template" translate="label comment" type="select" sortOrder="6" showInDefault="1" >
+                    <label>Outbid notify email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_outbid_email">1</field>
+                    </depends>
+                </field>
+                <field id="enable_winner_notify_email" translate="label comment" type="select" sortOrder="7" showInDefault="1" >
+                    <label>Email notification to winner</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="winner_notify_email_template" translate="label comment" type="select" sortOrder="8" showInDefault="1" >
+                    <label>Winner notify email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_winner_notify_email">1</field>
+                    </depends>
+                </field>
+
+                <!--field id="enable_auto_mail" translate="label comment" type="select" sortOrder="6" showInDefault="1" >
+                    <label>Email Notification for Auto bid to outbid buyer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="auto_mail_template" translate="label comment" type="select" sortOrder="7" showInDefault="1" >
+                    <label>Auto bid to outbid buyer email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_auto_mail">1</field>
+                    </depends>
+                </field-->
+                <field id="admin_email_address" translate="label comment" type="text" sortOrder="11" showInDefault="1" >
+                    <label>Enter admin email address</label>
+                    <validate>email-address</validate>
+                </field>
+                <field id="enable_submit_bid_email" translate="label comment" type="select" sortOrder="9" showInDefault="1" >
+                    <label>Email notification to bidder on submit bid</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="bidder_notify_email_template" translate="label comment" type="select" sortOrder="10" showInDefault="1" >
+                    <label>Bidder notify email template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_submit_bid_email">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

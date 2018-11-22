@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Webkul_MpAuction Detail Page.
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+?>
+<?php 
+    $auctionData = $block->getAuctionDetail();
+    $auctionBidDetails = $block->getAuctionAmtDetails();
+    $auctionConfig = $block->getAuctionConfig();
+    echo $block->getChildHtml('info');
+?>
+<?php if ($auctionBidDetails && count($auctionBidDetails)>0): ?>
+    <div class="table-wrapper ">
+        <table class="data table" id="my-auction-bid-table">
+            <caption class="table-caption"><?php echo __('Auctions Bid') ?></caption>
+            <thead class="wk-auction-bid-table-header">
+                <tr>
+                    <th scope="col" class="col"><?php echo __('Bidder Name') ?></th>
+                    <th scope="col" class="col"><?php echo __('Bid Amount') ?></th>
+                    <th scope="col" class="col"><?php echo __('Time Stamp') ?></th>
+                </tr>
+            </thead>
+            <tbody class="wk-auction-bid-table-body">
+                <?php foreach ($auctionBidDetails as $auction): ?>
+                    <tr>
+                        <td data-th="<?php echo $block->escapeHtml(__('Bidder Name ')) ?>" class="col">
+                            <?php echo $block->getCustomerName($auction->getCustomerId()); ?>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Bid Amount')) ?>" class="col">
+                            <?php echo $block->formatPrice($auction->getAuctionAmount()) ?>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Time Stamp')) ?>" class="col">
+                        <?php
+                            echo $block->formatDate(
+                                    $auction->getCreatedAt(), 
+                                    \IntlDateFormatter::MEDIUM, 
+                                    true
+                                ); 
+                        ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+    <?php 
+        //if($auctionData['autoauction_opt']) {
+            
+    // } 
+    ?>
+<?php else: ?>
+    <div class="message info empty" style="display:block;"><span><?php echo __('You have no bid records.'); ?></span></div>
+<?php endif ?>
+
+<?php 
+echo $block->getChildHtml('auto-bid');
+?>

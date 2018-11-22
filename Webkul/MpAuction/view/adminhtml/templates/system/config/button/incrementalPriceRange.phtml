@@ -1,0 +1,87 @@
+<!--
+/**
+ * Webkul_Auction Incremental Price Block
+ * @category  Webkul
+ * @package   Webkul_Auction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ -->
+<div class="pp-buttons-container">
+    <button id="<?php echo $block->getId() ?>" onclick="return false;">
+        <span><span><span>
+            <?php echo $block->escapeHtml($block->getButtonLabel()); ?>
+        </span></span></span>
+    </button>
+</div>
+<script type="temp/data" id="datatemo">
+    <form id="price_range_info">
+    <table class="admin__control-table">
+        <thead>
+            <tr id="attribute-options-table">
+                <th><?php echo __('From') ?></th>
+                <th><?php echo __('To') ?></th>
+                <th class="col-default control-table-actions-th">
+                    <?php echo __('Increment') ?>
+                </th>
+                <th class="col-delete">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody class="ignore-validate ui-sortable" data-role="options-container" style="" id="incremental_price_container">
+            <?php 
+                $incrementalPriceRuleInArray=$block->incrementalPriceRule();
+                foreach ($incrementalPriceRuleInArray as $incPriRl) { ?>
+                    <tr class="data-row">
+                        <td class="col-default admin__field-control">
+                            <input type="text" class="input-text admin__control-text" value="<?php echo $incPriRl['from']; ?>" name="increment[from][]" />
+                        </td>
+                        <td class="col-option_0 admin__field-control">
+                            <input type="text" class="input-text admin__control-text" value="<?php echo $incPriRl['to']; ?>" name="increment[to][]" />
+                        </td>
+                        <td class="col-option_0 admin__field-control">
+                            <input type="text" class="input-text admin__control-text required-option" value="<?php echo $incPriRl['price']; ?>" name="increment[price][]" />
+                        </td>
+                        <td class="col-delete">
+                            <button class="action- scalable delete delete-option" type="button" title="Delete" >
+                                <span>Delete</span>
+                            </button>
+                        </td>
+                    </tr>
+           <?php } ?>
+        </tbody>
+    </table>
+    </form>  
+</script>
+<script type="template/webkul" id="increment_row">
+    <tr class="data-row">
+        <td class="col-default admin__field-control">
+            <input placeholder="<?php echo __('From');?>" type="text" class="input-text admin__control-text" value="" name="increment[from][]" />
+        </td>
+        <td class="col-option_0 admin__field-control">
+            <input placeholder="<?php echo __('To');?>" type="text" class="input-text admin__control-text" value="" name="increment[to][]" />
+        </td>
+        <td class="col-option_0 admin__field-control">
+            <input type="text" class="input-text admin__control-text required-option" value="" name="increment[price][]" />
+        </td>
+        <td class="col-delete">
+            <button class="action- scalable delete delete-option" type="button" title="Delete" >
+                <span><?php echo __('Delete') ?></span>
+            </button>
+        </td>
+    </tr>
+</script>
+<script type="template/webkul" id="wk-loader">
+    <img src="<?php echo $block->getViewFileUrl('Webkul_MpAuction::images/loader.gif')?>" />
+</script>
+<script type="text/x-magento-init">
+    {
+		"body": {
+			"incrementalPriceRange": 
+				{
+					"blockId": "<?php echo $block->getId() ?>",
+					"saveurl" : "<?php echo $block->getAjaxCheckUrl() ?>"
+				}
+		}
+    }
+</script>

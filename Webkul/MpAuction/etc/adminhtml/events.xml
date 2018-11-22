@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_Auction Admin events
+ * @category  Webkul
+ * @package   Webkul_Auction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--<event name="catalog_product_save_after">
+        <observer name="webkul_catalog_product_save" instance="Webkul\MpAuction\Observer\CatalogProductSaveAfter" />
+    </event>-->
+    <event name="catalog_product_save_before">
+        <observer name="webkul_catalog_product_save_before" instance="Webkul\MpAuction\Observer\CatalogProductSaveBefore" />
+    </event>
+</config>

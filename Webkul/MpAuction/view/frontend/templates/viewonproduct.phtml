@@ -1,0 +1,213 @@
+<?php
+/**
+ * Webkul_Auction product view page block template.
+ * @category  Webkul
+ * @package   Webkul_Auction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$auctionData = $block->getAuctionDetail();
+
+$aucConfig = $block->getAuctionConfiguration();
+$serializedAuctionData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($auctionData);
+if (count($auctionData) > 1 && !$auctionData['new_auction_start']) {
+    if ($auctionData['current_time_stamp'] >= $auctionData['start_auction_time_stamp'] 
+        && $auctionData['current_time_stamp'] <= $auctionData['stop_auction_time_stamp']) {
+        $difference= $auctionData['stop_auction_time_stamp'] - $auctionData['current_time_stamp']; 
+        ?>
+        <div class="wk_product_background">
+            <div class="product-collateral">
+                <div class="box-collateral box-tags">
+                <?php if ($difference > 0) { ?>
+                    <div id='bottom_lin'>
+                        <div class='bid_title'><?php echo $auctionData['auction_title'] ?></div>
+                        <div class="auction-timer-block">
+                            <div class="wk-auction-timer-div">
+                                <div class="wk-auction-clock-main-div">
+                                    <div class="auction-bid-timer"><?php echo __('Ends in') ?></div>
+                                    <p class="wk_front_dd_countdownnew" id="wk_front_dd_note" data-diff-timestamp ="<?php echo $difference;?>"></p>
+                                </div>
+                                <?php if ($aucConfig['show_curt_auc_price']) { ?>
+                                <div class="wk-auction-current-bid">
+                                    <div class="auction-bid-timer"><?php echo __('Current Bid Amount') ?></div>
+                                    <div class="wk-auction-clock-span"> <?php echo $block->formatPrice($auctionData['current_auction_amount']) ;?></div>
+                                    <?php if ($aucConfig['show_auc_detail'] ) { ?>
+                                        <div class="bid_link">
+                                            <a href="#mp-bid-details" class='wk-auction-view-bid-link anchr'>
+                                                <?php echo $block->getNumberOfBid($auctionData['entity_id']); ?>
+                                            </a>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="wk-auction-bid-details">
+                        <?php if ($aucConfig['show_auc_detail'] ) { ?>
+                            <div class="auction-bid-first-column">
+                                <div class="wk_row">
+                                    <label ><?php echo __('Minimum Qty:') ?></label>
+                                    <span class='value'><?php echo $auctionData['min_qty']; ?></span>
+                                </div>
+                                <div class="wk_row">
+                                    <label ><?php echo __('Open Bid Amount:') ?></label>
+                                    <span class='value'><?php echo $block->formatPrice($auctionData['starting_price']) ;?></span>
+                                </div>
+                            </div>
+                        <?php } ?>
+                            <div class="auction-bid-second-column">
+                            <?php if ($aucConfig['show_auc_detail'] ) { ?>
+                                <div class="wk_row">
+                                    <label ><?php echo __('Maximum Qty:') ?></label>
+                                    <span class='value'><?php echo $auctionData['max_qty']; ?></span>
+                                </div>
+                            <?php } ?>
+                                <?php if ($aucConfig['show_curt_auc_price']) { ?>
+                                    <div class="wk_row">
+                                        <label ><?php echo __('Next Minimum Bid Amount:') ?></label>
+                                        <span class='value'><?php echo $block->formatPrice($auctionData['min_amount'] + 0.01) ;?></span>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    <div class="form-add">
+                        <div class="wk_wrap">
+                            <form action="<?php echo $block->getAuctionFormAction() ?>" enctype="multipart/form-data" method="post" class="mp_bidding_form" id="form-biddings-amount">
+                                <input type="hidden" name="entity_id" value="<?php echo $auctionData['entity_id']; ?>" />
+                                <input type="hidden" name="product_id" value="<?php echo $auctionData['product_id']; ?>" />
+                                <input type="hidden" name="pro_name" value="<?php echo $auctionData['pro_name']; ?>" />
+                                <input type="hidden" name="auto_auction_opt" value="<?php echo $auctionData['auto_auction_opt']; ?>" />
+                                <input type="hidden" name="pro_url" value="<?php echo $auctionData['pro_url']; ?>" />
+                                <input type="hidden" name="stop_auction_time_stamp" value="<?php echo $auctionData['stop_auction_time_stamp']; ?>">
+                                <div class="input-box">
+                                    <input type="text" name="bidding_amount" id="bidding_amount" class="input-text required-entry mpbidding_amount" placeholder="Enter Bid Amount" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;"/>
+                                    <button class="action primary" id='target' title="<?php echo __('Bidding') ?>" type="submit" >
+                                        <span><?php echo __('Bid Now') ?></span>
+                                    </button>
+                                    <div class="input-box auto-bid" >
+                                        <?php if ($aucConfig['auto_enable'] && $auctionData['auto_auction_opt']) { ?>
+                                            <input type="checkbox" value="1" name="auto_bid_allowed" id="auto_bid_allowed"/>
+                                            <span><?php echo __('Place Bid as Automatic') ?></span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <?php } ?>
+                </div>
+            </div>
+        </div>
+    <?php
+    //To Do
+    $timezone="";
+    } elseif ($auctionData['current_time_stamp'] >= $auctionData['stop_auction_time_stamp']) {
+        $aftComp = $block->getAuctionDetailAftetEnd($auctionData);
+        if ($aftComp['watting_user']) { ?>
+            <div class="wk_product_background"> 
+                <div class="product-collateral"> 
+                    <div class="box-collateral box-tags wk_row"> 
+                        <?php if ($aucConfig['show_auc_detail']) { ?>
+                        <div class='bid_link'>
+                            <span>
+                                <a href="#mp-bid-details" class='anchr wk-auction-view-bid-link'>
+                                    <?php echo $block->getNumberOfBid($auctionData['entity_id']); ?>
+                                </a>
+                            </span>
+                        </div>
+                    <?php } ?>
+                        <h3><?php echo $aftComp['watting_user']['msg_lable']; ?></h3>
+                    </div>
+                </div>
+            </div>
+    <?php } elseif ($aftComp['winner'] && $aftComp['winner']['price']) {
+                $winner = $aftComp['winner'];
+                if ($winner['time_for_buy'] > 0) {
+                    if ($winner['shop'] == 0) { ?>
+                        <div id="winner-data-container" class="wk_product_background allow-for-buy" data-cart-label="<?php echo __('Buy with ') . $block->formatPrice($winner['price']) ?>"> 
+                            <div class="product-collateral">
+                                <div id='bottom_lin' class="box-collateral box-tags wk_row">
+                                    <div class='bid_title'><?php echo $auctionData['auction_title'] ?></div>
+                                    <div class="auction-timer-block">
+                                        <div class="wk-auction-timer-div">
+                                            <div class="wk-auction-clock-main-div">
+                                                <div class="auction-bid-timer"><?php echo __('Time remaining to buy') ?></div>
+                                                <p class="wk_front_dd_countdownnew" id="wk_front_dd_note" data-diff-timestamp ="<?php echo $winner['time_for_buy'];?>"></p>
+                                            </div>
+                                            <div class="wk-auction-current-bid">
+                                                <div class="auction-bid-timer"><?php echo __('Current Bid Amount') ?></div>
+                                                <div class="wk-auction-clock-span"> <?php echo $block->formatPrice($auctionData['current_auction_amount']) ;?></div>
+                                                <?php if ($aucConfig['show_auc_detail'] ) { ?>
+                                                    <div class="bid_link">
+                                                        <a href="#mp-bid-details" class='wk-auction-view-bid-link anchr'>
+                                                            <?php echo $block->getNumberOfBid($auctionData['entity_id']); ?>
+                                                        </a>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="wk-auction-bid-details">
+                                    <div class="auction-bid-first-column">
+                                        <div class="wk_row">
+                                            <label ><?php echo __('Minimum Qty:') ?></label>
+                                            <span class='value'><?php echo $auctionData['min_qty']; ?></span>
+                                        </div>
+                                        <div class="wk_row">
+                                            <label ><?php echo __('Open Bid Amount:') ?></label>
+                                            <span class='value'><?php echo $block->formatPrice($auctionData['starting_price']) ;?></span>
+                                        </div>
+                                    </div>
+                                    <div class="auction-bid-second-column">
+                                        <div class="wk_row">
+                                            <label ><?php echo __('Maximum Qty:') ?></label>
+                                            <span class='value'><?php echo $auctionData['max_qty']; ?></span>
+                                        </div>
+                                        <div class="wk_row auction-winner-message">
+                                                    <?php
+                                            echo __($aucConfig['show_winner_msg'].' Now, you can get it in '.$block->formatPrice($winner['price'])) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } else { ?>
+                    <div class="wk_product_background">
+                        <div id="bottom_lin">
+                            <div class='bid_title'><?php echo $auctionData['auction_title'] ?></div>
+                            <div class="wk_row">
+                                <?php echo __('You have already bought this product.');?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php }
+                }
+          }
+    } ?>
+<?php } else { ?>
+<style>
+.product-add-form {
+    display: block;
+}
+</style>
+<?php }
+if (count($auctionData) >= 1) { ?>
+    <script type="text/x-magento-init">
+        {
+            "body": {
+                "Webkul_MpAuction/js/viewonproduct":
+                    {
+                        "buyItNow": "<?php echo __('Buy it now')?>",
+                        "auctionData" : <?php echo $serializedAuctionData?>,
+                        "auctionType" : "<?php echo $block->getProAuctionType()?>"
+                    }
+            }
+        }
+    </script>
+<?php }
+?>
+

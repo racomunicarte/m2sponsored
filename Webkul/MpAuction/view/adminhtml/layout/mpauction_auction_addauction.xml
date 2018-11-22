@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul_MpAuction add auction layout
+ * @category  Webkul
+ * @package   Webkul_MpAuction
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Magento_Customer::js/bootstrap/customer-post-action.js"/>
+        <link src="Webkul_MpAuction::js/addauction.js"/>
+    </head>
+    <body>
+        <referenceContainer name="admin.scope.col.wrap" htmlClass="admin__old" /> <!-- ToDo UI: remove this wrapper with old styles removal. The class name "admin__old" is for tests only, we shouldn't use it in any way -->
+        <referenceContainer name="left">
+            <block class="Webkul\MpAuction\Block\Adminhtml\Auction\Edit\Tabs" name="auction_edit_tabs">
+                <block class="Webkul\MpAuction\Block\Adminhtml\Auction\AddAuction" name="auction_form" />
+                <uiComponent name="auction_product_customer_bid_list" as="normal_bid" />
+                <uiComponent name="auction_product_customer_auto_bid_list" as="auto_bid_list" />
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+           <block class="Webkul\MpAuction\Block\Adminhtml\Auction\DetailContainer" name="mpauction_container" />
+        </referenceContainer>
+    </body>
+</page>

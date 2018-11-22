@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpqa
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Webkul_Mpqa::menu" title="Product Question Answer" module="Webkul_Mpqa" sortOrder="11" parent="Webkul_Marketplace::marketplace" resource="Webkul_Mpqa::menu"/>
+    	<add id="Webkul_Mpqa::index" title="Manage Product Question Answer" module="Webkul_Mpqa" sortOrder="20" parent="Webkul_Mpqa::menu" action="mpqa/mpqa/index" resource="Webkul_Mpqa::index"/>
+    </menu>
+</config>
